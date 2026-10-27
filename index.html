@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Financial Vault - Keuangan Harian</title>
+  <title>Financial Vault - Personal Finance</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,90 +12,54 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              dark: '#070a11',
-              card: '#0f172a',
-              cardLight: '#1e293b',
-              border: '#1e293b',
-              emerald: '#10b981',
-              rose: '#f43f5e',
-              amber: '#f59e0b',
-              blue: '#3b82f6',
-              purple: '#8b5cf6'
-            }
+            brand: { dark: '#070a11', card: '#0f172a', border: '#1e293b', emerald: '#10b981', rose: '#f43f5e', amber: '#f59e0b', blue: '#3b82f6' }
           },
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
-          }
+          fontFamily: { sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'] }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    body {
-      background-color: #070a11;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #f8fafc;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .glass-card {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .glass-card-glow {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .toast-transition {
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-    }
+    body { background-color: #070a11; font-family: 'Plus Jakarta Sans', sans-serif; color: #f8fafc; }
+    .glass-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card-glow { background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.3); }
   </style>
 </head>
 <body class="min-h-screen pb-28 max-w-md md:max-w-3xl lg:max-w-5xl mx-auto relative border-x border-slate-800/80 shadow-2xl">
 
-  <!-- ==================== SCREEN AUTH (LOGIN & REGISTER) ==================== -->
+  <!-- AUTH SCREEN -->
   <div id="auth-screen" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
     <div class="glass-card rounded-3xl p-6 w-full max-w-sm space-y-6 border border-slate-800 shadow-2xl">
-      
       <div class="text-center space-y-2">
         <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-black text-xl">
-          <i class="fa-solid fa-shield-halved"></i>
+          <i class="fa-solid fa-vault"></i>
         </div>
         <h2 id="auth-title" class="text-lg font-extrabold text-white">Financial Vault Login</h2>
-        <p class="text-xs text-slate-400">Keamanan berlapis akun finansial pribadi</p>
+        <p class="text-xs text-slate-400">Pencatatan Keuangan Presisi Okt 2026</p>
       </div>
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
         <input type="hidden" id="auth-mode" value="login" />
-
         <div id="group-nama" class="hidden">
-          <label class="text-slate-400 mb-1 block font-medium">Nama Lengkap</label>
+          <label class="text-slate-400 mb-1 block">Nama Lengkap</label>
           <input type="text" id="reg-nama" placeholder="Nama Anda" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500" />
         </div>
-
         <div>
-          <label class="text-slate-400 mb-1 block font-medium">Email / No. Telepon</label>
+          <label class="text-slate-400 mb-1 block">Email / Username</label>
           <input type="text" id="auth-identifier" required placeholder="nama@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500" />
         </div>
-
         <div>
-          <label class="text-slate-400 mb-1 block font-medium">Password / PIN</label>
+          <label class="text-slate-400 mb-1 block">Password</label>
           <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500" />
         </div>
-
-        <button type="submit" id="auth-btn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold p-3.5 rounded-xl transition active:scale-95 text-sm flex items-center justify-center gap-2">
+        <button type="submit" id="auth-btn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold p-3.5 rounded-xl transition text-sm">
           <span id="auth-btn-text">Masuk Aplikasi</span>
         </button>
       </form>
@@ -105,61 +68,56 @@
         <span id="auth-toggle-text">Belum punya akun?</span>
         <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-emerald-400 font-bold ml-1 hover:underline">Daftar Sekarang</button>
       </div>
-
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
+  <!-- TOAST CONTAINER -->
   <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-11/12 max-w-sm pointer-events-none"></div>
 
-  <!-- TOP HEADER -->
+  <!-- HEADER -->
   <header class="p-4 sm:p-6 bg-slate-950/90 sticky top-0 z-30 backdrop-blur-md border-b border-slate-800/80">
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black shadow-lg">
           <i class="fa-solid fa-vault text-lg"></i>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span id="sync-status-badge" class="text-[9px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded-full border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Apps Script
-            </span>
-          </div>
+          <span class="text-[9px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded-full border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 flex items-center gap-1 w-fit">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Synchronized
+          </span>
           <h1 class="text-lg font-extrabold text-white tracking-tight">Financial Vault</h1>
         </div>
       </div>
       
-      <div class="text-right flex items-center gap-2">
-        <button onclick="fetchLiveData()" title="Sync dengan Google Sheets" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 rounded-xl transition active:scale-95">
+      <div class="flex items-center gap-2">
+        <button onclick="fetchLiveData()" title="Sync Google Sheets" class="p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 rounded-xl transition">
           <i id="sync-icon" class="fa-solid fa-rotate text-xs"></i>
         </button>
-        <button onclick="handleLogout()" title="Keluar Akun" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-xl transition active:scale-95">
+        <button onclick="handleLogout()" title="Keluar" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-xl transition">
           <i class="fa-solid fa-right-from-bracket text-xs"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN CONTENT CONTAINER -->
+  <!-- CONTENT -->
   <div class="p-4 sm:p-6 space-y-6">
 
-    <!-- ==================== TAB 1: DASHBOARD ==================== -->
     <section id="tab-dashboard" class="space-y-6">
-      
       <div class="glass-card-glow rounded-3xl p-5 relative overflow-hidden shadow-xl">
         <div class="flex justify-between items-start mb-1">
           <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
             <i class="fa-solid fa-wallet"></i> Total Saldo Kas Liquid
           </span>
           <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">
-            Real-Time Liquid
+            Real-Time
           </span>
         </div>
 
         <h2 id="total-liquid-balance" class="text-3xl sm:text-4xl font-black text-white tracking-tight my-1">Rp 0</h2>
         <p class="text-[11px] text-slate-400">Total kas aktif di BCA + Permata + Cash Tunai</p>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mt-4 pt-4 border-t border-slate-700/50 text-xs">
+        <div class="grid grid-cols-3 gap-2.5 mt-4 pt-4 border-t border-slate-700/50 text-xs">
           <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
             <span class="text-slate-400 text-[10px] block">Saldo Awal</span>
             <span id="summary-saldo-awal" class="font-bold text-slate-200 text-xs">Rp 9.509.000</span>
@@ -175,18 +133,18 @@
         </div>
       </div>
 
-      <!-- REKENING & WALLET BREAKDOWN -->
+      <!-- REKENING BREAKDOWN -->
       <div>
         <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-building-columns text-emerald-400"></i> Rekening & Dompet Tunai
+          <i class="fa-solid fa-building-columns text-emerald-400"></i> Rincian Rekening & Dompet
         </h3>
         <div class="grid grid-cols-3 gap-3">
           <div class="glass-card rounded-2xl p-3 border border-blue-500/30">
-            <span class="text-[10px] font-extrabold text-blue-400 block mb-1">BCA</span>
+            <span class="text-[10px] font-extrabold text-blue-400 block mb-1">Bank BCA</span>
             <p id="card-bca-balance" class="text-xs sm:text-sm font-bold text-white">Rp 0</p>
           </div>
           <div class="glass-card rounded-2xl p-3 border border-purple-500/30">
-            <span class="text-[10px] font-extrabold text-purple-400 block mb-1">Permata</span>
+            <span class="text-[10px] font-extrabold text-purple-400 block mb-1">Bank Permata</span>
             <p id="card-permata-balance" class="text-xs sm:text-sm font-bold text-white">Rp 0</p>
           </div>
           <div class="glass-card rounded-2xl p-3 border border-emerald-500/40 bg-emerald-950/20">
@@ -196,79 +154,90 @@
         </div>
       </div>
 
-      <!-- QUICK ACTION BUTTONS -->
+      <!-- ACTION BUTTONS -->
       <div class="grid grid-cols-4 gap-2.5">
-        <button onclick="openModal('TRANSFER')" class="flex flex-col items-center justify-center bg-slate-900 border border-amber-500/40 rounded-2xl p-3 hover:bg-slate-800 transition active:scale-95">
+        <button onclick="openModal('TARIK_TUNAI')" class="flex flex-col items-center justify-center bg-slate-900 border border-amber-500/40 rounded-2xl p-3 hover:bg-slate-800 transition">
           <i class="fa-solid fa-money-bill-transfer text-amber-400 text-base mb-1"></i>
-          <span class="text-[10px] font-bold text-amber-300">Tarik Tunai</span>
+          <span class="text-[10px] font-bold text-amber-300">🏧 Tarik Tunai</span>
         </button>
-        <button onclick="openModal('EXPENSE_CASH')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition active:scale-95">
-          <i class="fa-solid fa-burger text-emerald-400 text-base mb-1"></i>
-          <span class="text-[10px] font-bold text-slate-300">Jajan Cash</span>
+        <button onclick="openModal('EXPENSE_CASH')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-utensils text-emerald-400 text-base mb-1"></i>
+          <span class="text-[10px] font-bold text-slate-300">💵 Jajan Cash</span>
         </button>
-        <button onclick="openModal('EXPENSE_GENERAL')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition active:scale-95">
+        <button onclick="openModal('EXPENSE_GENERAL')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition">
           <i class="fa-solid fa-receipt text-rose-400 text-base mb-1"></i>
-          <span class="text-[10px] font-bold text-slate-300">Pengeluaran</span>
+          <span class="text-[10px] font-bold text-slate-300">💳 Pengeluaran</span>
         </button>
-        <button onclick="openModal('INCOME')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition active:scale-95">
+        <button onclick="openModal('INCOME')" class="flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-2xl p-3 hover:bg-slate-800 transition">
           <i class="fa-solid fa-hand-holding-dollar text-blue-400 text-base mb-1"></i>
-          <span class="text-[10px] font-bold text-slate-300">Income</span>
+          <span class="text-[10px] font-bold text-slate-300">💰 Income</span>
         </button>
       </div>
 
-      <!-- BUDGET LIMIT MONITORING -->
+      <!-- BUDGET LIMITS -->
       <div>
         <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-chart-line text-emerald-400"></i> Monitor Kuota Pos Anggaran
+          <i class="fa-solid fa-chart-line text-emerald-400"></i> Kuota Anggaran Bulanan
         </h3>
         <div id="budget-limits-list" class="space-y-3"></div>
       </div>
     </section>
 
-    <!-- ==================== TAB 2: TRANSAKSI (LOG) ==================== -->
+    <!-- TRANSACTIONS TAB -->
     <section id="tab-transaksi" class="space-y-4 hidden">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-bold text-white">Log Transaksi Harian</h3>
+        <h3 class="text-sm font-bold text-white">Log Input Transaksi Harian</h3>
         <span id="tx-count" class="text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">0 Transaksi</span>
       </div>
       <div id="transaction-log-list" class="space-y-2"></div>
     </section>
 
-    <!-- ==================== TAB 3: GRAFIK & ANALYTICS ==================== -->
+    <!-- CHARTS TAB -->
     <section id="tab-grafik" class="space-y-6 hidden">
       <div class="glass-card rounded-3xl p-5 border border-slate-800">
-        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 text-center">Pemasukan vs Pengeluaran</h4>
+        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 text-center">Analisis Arus Kas</h4>
         <div class="relative h-56 w-full flex justify-center items-center"><canvas id="chart-income-expense"></canvas></div>
       </div>
     </section>
 
-    <!-- ==================== TAB 4: ASET & NET WORTH ==================== -->
+    <!-- NET WORTH TAB -->
     <section id="tab-aset" class="space-y-6 hidden">
       <div class="glass-card-glow rounded-3xl p-5">
-        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">Total Net Worth</span>
+        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">Total Owned Net Worth</span>
         <h2 id="total-net-worth" class="text-3xl font-black text-white">Rp 0</h2>
+        <p class="text-xs text-slate-400 mt-1">Saldo Liquid + Aset Fisik (CBR 250R, Vario 150, Emas Antam 7g)</p>
       </div>
     </section>
 
   </div>
 
-  <!-- MODAL FORM -->
+  <!-- MODAL FORM TRANSAKSI -->
   <div id="modal-form" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center hidden z-50 p-0 sm:p-4">
     <div class="bg-slate-900 border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-3xl w-full max-w-md p-6 space-y-4">
       <div class="flex justify-between items-center pb-2 border-b border-slate-800">
         <h4 id="modal-title" class="text-sm font-bold text-white">Catat Transaksi</h4>
         <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
+
       <form id="tx-form" onsubmit="handleFormSubmit(event)" class="space-y-3 text-xs">
         <input type="hidden" id="form-type" value="Pengeluaran" />
+        <input type="hidden" id="form-is-tarik" value="false" />
+
         <div>
           <label class="text-slate-400 mb-1 block">Tanggal</label>
           <input type="date" id="form-date" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none" />
         </div>
+
         <div>
-          <label class="text-slate-400 mb-1 block">Nominal (Rp)</label>
+          <label id="label-amount" class="text-slate-400 mb-1 block">Nominal (Rp)</label>
           <input type="number" id="form-amount" min="1" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none text-sm font-bold" />
         </div>
+
+        <div id="group-admin" class="hidden">
+          <label class="text-slate-400 mb-1 block">Biaya Admin ATM (Opsional)</label>
+          <input type="number" id="form-admin" placeholder="Contoh: 2500 atau kosongkan" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none" />
+        </div>
+
         <div id="group-category">
           <label class="text-slate-400 mb-1 block">Kategori Pos</label>
           <select id="form-category" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
@@ -278,25 +247,24 @@
             <option value="Belanja Shopee">Belanja Shopee</option>
             <option value="Kebutuhan Pribadi">Kebutuhan Pribadi</option>
             <option value="Administrasi">Administrasi</option>
+            <option value="Transportasi">Transportasi</option>
+            <option value="Hiburan">Hiburan</option>
+            <option value="Berbagi">Berbagi</option>
+            <option value="Investasi">Investasi</option>
           </select>
         </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="text-slate-400 mb-1 block">Sumber Dana</label>
+            <label id="label-source" class="text-slate-400 mb-1 block">Sumber Dana</label>
             <select id="form-source" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
               <option value="BCA">BCA Bank</option>
               <option value="Permata">Permata Bank</option>
               <option value="Uang Tunai (Cash)">Uang Tunai (Cash)</option>
             </select>
           </div>
-          <div id="group-target" class="hidden">
-            <label class="text-slate-400 mb-1 block">Tujuan Dana</label>
-            <select id="form-target" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
-              <option value="Uang Tunai (Cash)">Uang Tunai (Cash)</option>
-              <option value="BCA">BCA Bank</option>
-            </select>
-          </div>
-          <div>
+
+          <div id="group-method">
             <label class="text-slate-400 mb-1 block">Metode Bayar</label>
             <select id="form-method" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
               <option value="Qris">Qris</option>
@@ -305,24 +273,25 @@
             </select>
           </div>
         </div>
+
         <div>
-          <label class="text-slate-400 mb-1 block">Catatan</label>
-          <input type="text" id="form-note" placeholder="Keterangan..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none" />
+          <label class="text-slate-400 mb-1 block">Keterangan / Catatan</label>
+          <input type="text" id="form-note" placeholder="Catatan transaksi..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none" />
         </div>
+
         <button type="submit" id="submit-btn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold p-3.5 rounded-xl transition text-sm">Simpan Transaksi</button>
       </form>
     </div>
   </div>
 
-  <!-- NAVBAR -->
+  <!-- NAVIGATION -->
   <nav class="fixed bottom-0 left-0 right-0 max-w-md md:max-w-3xl lg:max-w-5xl mx-auto bg-slate-950/95 backdrop-blur-md border-t border-slate-800 px-6 py-2.5 flex justify-around items-center z-40">
     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center text-emerald-400 transition"><i class="fa-solid fa-house text-base"></i><span class="text-[10px] mt-1 font-semibold">Home</span></button>
-    <button onclick="switchTab('transaksi')" id="nav-transaksi" class="flex flex-col items-center text-slate-500 hover:text-slate-200 transition"><i class="fa-solid fa-receipt text-base"></i><span class="text-[10px] mt-1 font-semibold">Transaksi</span></button>
-    <button onclick="switchTab('grafik')" id="nav-grafik" class="flex flex-col items-center text-slate-500 hover:text-slate-200 transition"><i class="fa-solid fa-chart-pie text-base"></i><span class="text-[10px] mt-1 font-semibold">Grafik</span></button>
-    <button onclick="switchTab('aset')" id="nav-aset" class="flex flex-col items-center text-slate-500 hover:text-slate-200 transition"><i class="fa-solid fa-gem text-base"></i><span class="text-[10px] mt-1 font-semibold">Aset</span></button>
+    <button onclick="switchTab('transaksi')" id="nav-transaksi" class="flex flex-col items-center text-slate-500 transition"><i class="fa-solid fa-receipt text-base"></i><span class="text-[10px] mt-1 font-semibold">Transaksi</span></button>
+    <button onclick="switchTab('grafik')" id="nav-grafik" class="flex flex-col items-center text-slate-500 transition"><i class="fa-solid fa-chart-pie text-base"></i><span class="text-[10px] mt-1 font-semibold">Grafik</span></button>
+    <button onclick="switchTab('aset')" id="nav-aset" class="flex flex-col items-center text-slate-500 transition"><i class="fa-solid fa-gem text-base"></i><span class="text-[10px] mt-1 font-semibold">Aset</span></button>
   </nav>
 
-  <!-- SCRIPT LOGIC -->
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBxVGhQ7dSDFVHOijdX0MiqRn8HlHxFNDxFLzz4PX5jZqwGI_KVJvwRJQfOleQFfb8pg/exec';
     const INITIAL_BALANCES = { bca: 9509000, permata: 0, cash: 0 };
@@ -330,7 +299,6 @@
     const BUDGET_LIMITS = { 'Makanan': 1500000, 'Tempat Tinggal': 600000, 'Listrik dan Pulsa': 300000, 'Belanja Shopee': 300000, 'Kebutuhan Pribadi': 400000, 'Administrasi': 50000 };
 
     let transactions = [];
-    let categoryChartInstance = null;
     let incExpChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -346,111 +314,64 @@
 
     function toggleAuthMode() {
       const modeInput = document.getElementById('auth-mode');
-      const groupNama = document.getElementById('group-nama');
-      const title = document.getElementById('auth-title');
-      const btnText = document.getElementById('auth-btn-text');
-      const toggleText = document.getElementById('auth-toggle-text');
-      const toggleBtn = document.getElementById('auth-toggle-btn');
-
-      if (modeInput.value === 'login') {
-        modeInput.value = 'register';
-        groupNama.classList.remove('hidden');
-        title.innerText = 'Buat Akun Baru';
-        btnText.innerText = 'Daftar Sekarang';
-        toggleText.innerText = 'Sudah punya akun?';
-        toggleBtn.innerText = 'Masuk';
-      } else {
-        modeInput.value = 'login';
-        groupNama.classList.add('hidden');
-        title.innerText = 'Financial Vault Login';
-        btnText.innerText = 'Masuk Aplikasi';
-        toggleText.innerText = 'Belum punya akun?';
-        toggleBtn.innerText = 'Daftar Sekarang';
-      }
+      const isLogin = modeInput.value === 'login';
+      modeInput.value = isLogin ? 'register' : 'login';
+      document.getElementById('group-nama').classList.toggle('hidden', !isLogin);
+      document.getElementById('auth-title').innerText = isLogin ? 'Buat Akun Baru' : 'Financial Vault Login';
+      document.getElementById('auth-btn-text').innerText = isLogin ? 'Daftar Sekarang' : 'Masuk Aplikasi';
+      document.getElementById('auth-toggle-text').innerText = isLogin ? 'Sudah punya akun?' : 'Belum punya akun?';
+      document.getElementById('auth-toggle-btn').innerText = isLogin ? 'Masuk' : 'Daftar Sekarang';
     }
 
     async function handleAuthSubmit(e) {
       e.preventDefault();
       const mode = document.getElementById('auth-mode').value;
-      const identifier = document.getElementById('auth-identifier').value;
-      const password = document.getElementById('auth-password').value;
-      const nama = document.getElementById('reg-nama').value;
-      const btn = document.getElementById('auth-btn');
-
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses...`;
-
       const payload = mode === 'login' 
-        ? { action: 'login', identifier, password }
-        : { action: 'register', nama, email: identifier, password };
+        ? { action: 'login', identifier: document.getElementById('auth-identifier').value, password: document.getElementById('auth-password').value }
+        : { action: 'register', nama: document.getElementById('reg-nama').value, email: document.getElementById('auth-identifier').value, password: document.getElementById('auth-password').value };
 
       try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-
+        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = await res.json();
         if (result.status === 'success') {
           showToast(result.message, 'success');
           if (mode === 'login') {
             localStorage.setItem('activeUser', JSON.stringify(result.user));
             document.getElementById('auth-screen').classList.add('hidden');
             fetchLiveData();
-          } else {
-            toggleAuthMode();
-          }
-        } else {
-          showToast(result.message, 'error');
-        }
-      } catch (err) {
-        showToast('Koneksi server gagal atau mode offline.', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>${mode === 'login' ? 'Masuk Aplikasi' : 'Daftar Sekarang'}</span>`;
-      }
+          } else { toggleAuthMode(); }
+        } else { showToast(result.message, 'error'); }
+      } catch (err) { showToast('Koneksi server gagal.', 'error'); }
     }
 
     function handleLogout() {
       localStorage.removeItem('activeUser');
       document.getElementById('auth-screen').classList.remove('hidden');
-      showToast('Anda telah keluar.', 'info');
     }
 
     function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      const isSuccess = type === 'success';
-      toast.className = `p-3 rounded-2xl border text-xs font-semibold shadow-2xl flex items-center justify-between pointer-events-auto toast-transition transform translate-y-2 opacity-0 mb-2 ${
-        isSuccess ? 'bg-slate-900 border-emerald-500/50 text-emerald-300' : 'bg-slate-900 border-amber-500/50 text-amber-300'
+      toast.className = `p-3 rounded-2xl border text-xs font-semibold shadow-2xl flex items-center gap-2 mb-2 ${
+        type === 'success' ? 'bg-slate-900 border-emerald-500/50 text-emerald-300' : 'bg-slate-900 border-rose-500/50 text-rose-300'
       }`;
-      toast.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid ${isSuccess ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-amber-400'}"></i><span>${message}</span></div>`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-xmark text-rose-400'}"></i><span>${message}</span>`;
       container.appendChild(toast);
-      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
+      setTimeout(() => toast.remove(), 3500);
     }
 
     async function fetchLiveData() {
       try {
-        const response = await fetch(`${SCRIPT_URL}?action=getTransactions`, { method: 'GET', cache: 'no-cache' });
-        if (response.ok) {
-          const resData = await response.json();
-          if (resData && Array.isArray(resData.logs)) {
-            transactions = resData.logs;
-          }
+        const res = await fetch(`${SCRIPT_URL}?action=getTransactions`, { cache: 'no-cache' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.logs)) { transactions = data.logs; }
         }
-      } catch (err) {
-        console.warn('Gagal memuat data online, menggunakan mode lokal.');
-      }
+      } catch (err) { console.warn('Mode offline aktif.'); }
       recalculateAndRender();
     }
 
-    function formatRp(val) {
-      return 'Rp ' + Math.round(val).toLocaleString('id-ID');
-    }
+    function formatRp(val) { return 'Rp ' + Math.round(val).toLocaleString('id-ID'); }
 
     function computeFinancials() {
       let bca = INITIAL_BALANCES.bca;
@@ -484,8 +405,7 @@
       });
 
       const totalLiquid = bca + permata + cash;
-      const totalNetWorth = totalLiquid + FIXED_ASSETS_VALUE;
-      return { bca, permata, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth, categoryExpenses };
+      return { bca, permata, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth: totalLiquid + FIXED_ASSETS_VALUE, categoryExpenses };
     }
 
     function recalculateAndRender() {
@@ -500,7 +420,7 @@
 
       renderBudgetLimits(fin.categoryExpenses);
       renderTransactionsList();
-      renderCharts(fin.totalIncome, fin.totalExpense, fin.categoryExpenses);
+      renderCharts(fin.totalIncome, fin.totalExpense);
     }
 
     function renderBudgetLimits(catExpenses) {
@@ -521,6 +441,10 @@
             <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
               <div class="h-full rounded-full ${isOver ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${percent}%"></div>
             </div>
+            <div class="flex justify-between text-[10px] text-slate-400">
+              <span>Terpakai: ${formatRp(used)}</span>
+              <span>Limit: ${formatRp(limit)}</span>
+            </div>
           </div>
         `);
       });
@@ -537,16 +461,14 @@
         <div class="glass-card rounded-2xl p-3 border border-slate-800 flex justify-between items-center text-xs">
           <div>
             <h4 class="font-bold text-slate-100">${tx.note || tx.category}</h4>
-            <p class="text-[10px] text-slate-400">${tx.date} • ${tx.source}</p>
+            <p class="text-[10px] text-slate-400">${tx.date} • ${tx.source} ${tx.type === 'Transfer' ? '➔ ' + tx.target : ''}</p>
           </div>
-          <div class="text-right">
-            <p class="font-extrabold ${tx.type === 'Pengeluaran' ? 'text-rose-400' : 'text-emerald-400'}">${formatRp(tx.amount)}</p>
-          </div>
+          <p class="font-extrabold ${tx.type === 'Pengeluaran' ? 'text-rose-400' : tx.type === 'Transfer' ? 'text-amber-400' : 'text-emerald-400'}">${formatRp(tx.amount)}</p>
         </div>
       `).join('');
     }
 
-    function renderCharts(totalInc, totalExp, catExpenses) {
+    function renderCharts(totalInc, totalExp) {
       const ctx = document.getElementById('chart-income-expense').getContext('2d');
       if (incExpChartInstance) incExpChartInstance.destroy();
       incExpChartInstance = new Chart(ctx, {
@@ -559,32 +481,77 @@
       });
     }
 
-    function openModal(mode) { document.getElementById('modal-form').classList.remove('hidden'); }
-    function closeModal() { document.getElementById('modal-form').classList.add('hidden'); document.getElementById('tx-form').reset(); }
+    function openModal(mode) {
+      document.getElementById('modal-form').classList.remove('hidden');
+      const groupAdmin = document.getElementById('group-admin');
+      const groupCat = document.getElementById('group-category');
+      const isTarik = document.getElementById('form-is-tarik');
+
+      if (mode === 'TARIK_TUNAI') {
+        document.getElementById('modal-title').innerText = '🏧 Tarik Tunai di ATM';
+        document.getElementById('form-type').value = 'Transfer';
+        isTarik.value = 'true';
+        groupAdmin.classList.remove('hidden');
+        groupCat.classList.add('hidden');
+        document.getElementById('form-source').value = 'BCA';
+      } else if (mode === 'EXPENSE_CASH') {
+        document.getElementById('modal-title').innerText = '💵 Jajan Cash (Uang Tunai)';
+        document.getElementById('form-type').value = 'Pengeluaran';
+        isTarik.value = 'false';
+        groupAdmin.classList.add('hidden');
+        groupCat.classList.remove('hidden');
+        document.getElementById('form-source').value = 'Uang Tunai (Cash)';
+      } else {
+        document.getElementById('modal-title').innerText = mode === 'INCOME' ? '💰 Income Baru' : '💳 Pengeluaran Umum';
+        document.getElementById('form-type').value = mode === 'INCOME' ? 'Pemasukan' : 'Pengeluaran';
+        isTarik.value = 'false';
+        groupAdmin.classList.add('hidden');
+        groupCat.classList.remove('hidden');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal-form').classList.add('hidden');
+      document.getElementById('tx-form').reset();
+    }
 
     async function handleFormSubmit(e) {
       e.preventDefault();
-      const newTx = {
+      const isTarik = document.getElementById('form-is-tarik').value === 'true';
+      const amount = Number(document.getElementById('form-amount').value);
+      const admin = Number(document.getElementById('form-admin').value) || 0;
+      const source = document.getElementById('form-source').value;
+      const note = document.getElementById('form-note').value || (isTarik ? 'Tarik Tunai ATM' : 'Transaksi');
+
+      const payload = {
         date: document.getElementById('form-date').value,
+        isTarikTunai: isTarik,
         type: document.getElementById('form-type').value,
         category: document.getElementById('form-category').value,
-        amount: Number(document.getElementById('form-amount').value),
-        source: document.getElementById('form-source').value,
-        target: document.getElementById('form-target').value,
+        amount: amount,
+        admin: admin,
+        source: source,
+        target: isTarik ? 'Uang Tunai (Cash)' : '',
         method: document.getElementById('form-method').value,
-        note: document.getElementById('form-note').value || 'Transaksi'
+        note: note
       };
 
-      transactions.push(newTx);
+      if (isTarik) {
+        transactions.push({ date: payload.date, type: 'Transfer', category: 'Pindah Dana', amount: amount, source: source, target: 'Uang Tunai (Cash)', method: 'Transfer', note: note });
+        if (admin > 0) {
+          transactions.push({ date: payload.date, type: 'Pengeluaran', category: 'Administrasi', amount: admin, source: source, target: '-', method: 'Transfer', note: 'Admin ' + note });
+        }
+      } else {
+        transactions.push(payload);
+      }
+
       recalculateAndRender();
       closeModal();
-      showToast('Transaksi tercatat', 'success');
+      showToast('Transaksi berhasil tersimpan!', 'success');
 
       try {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(newTx) });
-      } catch (err) {
-        console.warn('Sync background error');
-      }
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+      } catch (err) { console.warn('Sync background error'); }
     }
 
     function switchTab(tabName) {
