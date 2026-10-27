@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -66,9 +66,6 @@
       color: #ffffff;
       box-shadow: 0 10px 30px -5px rgba(0, 122, 255, 0.3);
     }
-    .toast-transition {
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-    }
   </style>
 </head>
 <body class="min-h-screen pb-28 max-w-md md:max-w-3xl lg:max-w-5xl mx-auto relative border-x border-slate-200/80">
@@ -88,13 +85,13 @@
         <input type="hidden" id="auth-mode" value="login" />
 
         <div id="group-name" class="hidden">
-          <label class="text-ios-muted mb-1 block font-medium">Full Name</label>
+          <label class="text-ios-muted mb-1 block font-medium">Nama Lengkap</label>
           <input type="text" id="reg-name" placeholder="John Doe" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-ios-text focus:outline-none focus:border-ios-blue focus:bg-white transition" />
         </div>
 
         <div>
-          <label class="text-ios-muted mb-1 block font-medium">Email / Phone Number</label>
-          <input type="text" id="auth-identifier" required placeholder="08123456789 or email@domain.com" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-ios-text focus:outline-none focus:border-ios-blue focus:bg-white transition" />
+          <label class="text-ios-muted mb-1 block font-medium">Email / No. HP</label>
+          <input type="text" id="auth-identifier" required placeholder="08123456789 atau email@domain.com" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-ios-text focus:outline-none focus:border-ios-blue focus:bg-white transition" />
         </div>
 
         <div>
@@ -103,13 +100,13 @@
         </div>
 
         <button type="submit" id="auth-btn" class="w-full bg-ios-blue hover:bg-blue-600 text-white font-bold p-3.5 rounded-2xl transition active:scale-95 text-sm shadow-lg shadow-blue-500/20">
-          <span id="auth-btn-text">Log In</span>
+          <span id="auth-btn-text">Masuk Akun</span>
         </button>
       </form>
 
       <div class="text-center text-xs text-ios-muted">
-        <span id="auth-toggle-text">Don't have an account?</span>
-        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-ios-blue font-bold ml-1 hover:underline">Register Now</button>
+        <span id="auth-toggle-text">Belum punya akun?</span>
+        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-ios-blue font-bold ml-1 hover:underline">Daftar Sekarang</button>
       </div>
     </div>
   </div>
@@ -130,17 +127,19 @@
               <span class="w-1.5 h-1.5 rounded-full bg-ios-green animate-ping"></span> Live Sync
             </span>
           </div>
-          <h1 class="text-lg font-extrabold text-ios-text tracking-tight">Artha</h1>
+          <!-- Feature 6: User greeting / profile name like mobile banking -->
+          <h1 id="user-greeting-name" class="text-base sm:text-lg font-extrabold text-ios-text tracking-tight">Halo, Artha User</h1>
         </div>
       </div>
       
       <div class="flex items-center gap-2">
+        <!-- Feature 4: Monthly & Annual Analytics Period Selector -->
         <select id="period-selector" onchange="handlePeriodChange()" class="bg-slate-100 border border-slate-200 text-ios-text text-xs font-bold rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-ios-blue">
-          <option value="ALL">All Time History</option>
-          <option value="2026-10" selected>October 2026</option>
-          <option value="2026-11">November 2026</option>
-          <option value="2026-12">December 2026</option>
-          <option value="YEAR_2026">Annual 2026 Summary</option>
+          <option value="ALL">Semua Riwayat</option>
+          <option value="2026-10" selected>Oktober 2026 (Bulanan)</option>
+          <option value="2026-11">November 2026 (Bulanan)</option>
+          <option value="2026-12">Desember 2026 (Bulanan)</option>
+          <option value="YEAR_2026">Analisis Tahunan 2026</option>
         </select>
         <button onclick="fetchLiveData()" title="Refresh Data" class="p-2 bg-slate-100 hover:bg-slate-200 text-ios-text rounded-xl transition active:scale-95 border border-slate-200">
           <i id="sync-icon" class="fa-solid fa-rotate text-xs"></i>
@@ -162,38 +161,38 @@
       <div class="ios-card-gradient rounded-3xl p-6 relative overflow-hidden">
         <div class="flex justify-between items-start mb-1">
           <span class="text-xs font-semibold text-blue-100 flex items-center gap-1.5">
-            <i class="fa-solid fa-wallet"></i> Total Liquid Cash
+            <i class="fa-solid fa-wallet"></i> Total Saldo Likuid
           </span>
           <span class="text-[10px] bg-white/20 text-white px-2.5 py-0.5 rounded-full font-bold backdrop-blur-md">
-            Active Cashflow
+            Mobile Banking Active
           </span>
         </div>
 
         <h2 id="total-liquid-balance" class="text-3xl sm:text-4xl font-black text-white tracking-tight my-1">Rp 0</h2>
-        <p class="text-[11px] text-blue-100">Real-time liquid balance across all banks, e-wallets, & cash</p>
+        <p class="text-[11px] text-blue-100">Total akumulasi rekening bank, e-wallet OVO & ShopeePay, serta cash</p>
 
         <div class="grid grid-cols-3 gap-2.5 mt-5 pt-4 border-t border-white/20 text-xs">
           <div class="bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
-            <span class="text-blue-100 text-[10px] block">Initial Balance</span>
+            <span class="text-blue-100 text-[10px] block">Saldo Awal</span>
             <span id="summary-initial" class="font-bold text-white text-xs">Rp 9,509,000</span>
           </div>
           <div class="bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
-            <span class="text-blue-100 text-[10px] block">Total Income</span>
+            <span class="text-blue-100 text-[10px] block">Total Masuk</span>
             <span id="summary-income" class="font-bold text-emerald-300 text-xs">+Rp 0</span>
           </div>
           <div class="bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
-            <span class="text-blue-100 text-[10px] block">Total Expense</span>
+            <span class="text-blue-100 text-[10px] block">Total Keluar</span>
             <span id="summary-expense" class="font-bold text-rose-300 text-xs">-Rp 0</span>
           </div>
         </div>
       </div>
 
-      <!-- ACCOUNTS & WALLETS GRID -->
+      <!-- ACCOUNTS & E-WALLETS GRID (Feature 1: OVO & ShopeePay added) -->
       <div>
         <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-building-columns text-ios-blue"></i> Accounts & Digital Wallets
+          <i class="fa-solid fa-building-columns text-ios-blue"></i> Rekening & Dompet Digital
         </h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
           <div class="ios-card-solid rounded-2xl p-3 border-l-4 border-l-blue-500">
             <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">BCA Bank</span>
             <p id="card-bca-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
@@ -202,16 +201,20 @@
             <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">Permata Bank</span>
             <p id="card-permata-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
           </div>
+          <div class="ios-card-solid rounded-2xl p-3 border-l-4 border-l-indigo-500">
+            <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">OVO E-Wallet</span>
+            <p id="card-ovo-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
+          </div>
           <div class="ios-card-solid rounded-2xl p-3 border-l-4 border-l-orange-500">
-            <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">E-Wallet (GoPay)</span>
-            <p id="card-ewallet-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
+            <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">ShopeePay</span>
+            <p id="card-shopeepay-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
           </div>
           <div class="ios-card-solid rounded-2xl p-3 border-l-4 border-l-teal-500">
-            <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">E-Money (Flazz)</span>
+            <span class="text-[10px] font-extrabold text-ios-muted block mb-0.5">E-Money Flazz</span>
             <p id="card-emoney-balance" class="text-xs font-bold text-ios-text">Rp 0</p>
           </div>
           <div class="ios-card-solid rounded-2xl p-3 border-l-4 border-l-emerald-500 bg-emerald-50/30">
-            <span class="text-[10px] font-extrabold text-ios-green block mb-0.5">Physical Cash</span>
+            <span class="text-[10px] font-extrabold text-ios-green block mb-0.5">Cash Tunai</span>
             <p id="card-cash-balance" class="text-xs font-bold text-ios-green">Rp 0</p>
           </div>
         </div>
@@ -219,13 +222,13 @@
 
       <!-- ACTION BUTTONS GRID -->
       <div>
-        <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3">Quick Actions</h3>
+        <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3">Aksi Cepat Transaksi</h3>
         <div class="grid grid-cols-5 gap-2">
           <button onclick="openModal('WITHDRAWAL')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
             <div class="w-9 h-9 rounded-xl bg-amber-50 text-ios-orange flex items-center justify-center mb-1">
               <i class="fa-solid fa-money-bill-transfer text-sm"></i>
             </div>
-            <span class="text-[10px] font-bold text-ios-text">Withdrawal</span>
+            <span class="text-[10px] font-bold text-ios-text">Tarik Tunai</span>
           </button>
 
           <button onclick="openModal('FUND_TRANSFER')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
@@ -235,11 +238,12 @@
             <span class="text-[10px] font-bold text-ios-text">Transfer</span>
           </button>
 
+          <!-- Feature 8: Automatic Cash Expense (Jajan Cash) -->
           <button onclick="openModal('CASH_EXPENSE')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
             <div class="w-9 h-9 rounded-xl bg-emerald-50 text-ios-green flex items-center justify-center mb-1">
               <i class="fa-solid fa-money-bill-wave text-sm"></i>
             </div>
-            <span class="text-[10px] font-bold text-ios-text">Cash Exp</span>
+            <span class="text-[10px] font-bold text-ios-text">Jajan Cash</span>
           </button>
 
           <button onclick="openModal('DIGITAL_EXPENSE')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
@@ -249,11 +253,12 @@
             <span class="text-[10px] font-bold text-ios-text">Digital Exp</span>
           </button>
 
+          <!-- Feature 7: Income Menu with Date, Nominal, Destination Saldo (ATM vs Cash), Note -->
           <button onclick="openModal('INCOME')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
             <div class="w-9 h-9 rounded-xl bg-blue-50 text-ios-blue flex items-center justify-center mb-1">
               <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
             </div>
-            <span class="text-[10px] font-bold text-ios-text">Income</span>
+            <span class="text-[10px] font-bold text-ios-text">Pemasukan</span>
           </button>
         </div>
       </div>
@@ -263,29 +268,27 @@
         <div class="flex justify-between items-center border-b border-slate-100 pb-3">
           <div>
             <h3 class="text-xs font-bold text-ios-text uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-calendar-check text-ios-purple"></i> Monthly Planned Commitments
+              <i class="fa-solid fa-calendar-check text-ios-purple"></i> Rencana Komitmen Bulanan
             </h3>
-            <p class="text-[10px] text-ios-muted">Potential major expenses (does not deduct active balance yet)</p>
+            <p class="text-[10px] text-ios-muted">Estimasi pengeluaran besar (belum mengurangi saldo berjalan)</p>
           </div>
           <button onclick="openAddPlanModal()" class="px-2.5 py-1 bg-purple-50 text-ios-purple rounded-xl text-xs font-bold hover:bg-purple-100 transition">
-            + Add Plan
+            + Tambah Rencana
           </button>
         </div>
 
-        <div id="monthly-plans-list" class="space-y-2">
-          <!-- Rendered via JS -->
-        </div>
+        <div id="monthly-plans-list" class="space-y-2"></div>
 
         <div class="bg-purple-50/50 rounded-2xl p-3 border border-purple-100 flex justify-between items-center text-xs">
-          <span class="text-ios-muted font-medium">Projected Balance After Plans:</span>
+          <span class="text-ios-muted font-medium">Proyeksi Saldo Setelah Komitmen:</span>
           <span id="projected-remaining-balance" class="font-extrabold text-ios-purple">Rp 0</span>
         </div>
       </div>
 
-      <!-- BUDGET POS ALLOCATIONS -->
+      <!-- BUDGET POS ALLOCATIONS (Feature 2 & 3 Fixed) -->
       <div>
         <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-chart-pie text-ios-blue"></i> Budget Pos Allocations
+          <i class="fa-solid fa-chart-pie text-ios-blue"></i> Alokasi Budget Pos (Budget Master)
         </h3>
         <div id="budget-limits-list" class="space-y-3"></div>
       </div>
@@ -294,37 +297,60 @@
     <!-- ==================== TAB 2: TRANSACTIONS LOG ==================== -->
     <section id="tab-transaksi" class="space-y-4 hidden">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-bold text-ios-text">Transaction History</h3>
-        <span id="tx-count" class="text-xs text-ios-muted bg-white px-2.5 py-1 rounded-xl border border-slate-200">0 Items</span>
+        <h3 class="text-sm font-bold text-ios-text">Riwayat Transaksi</h3>
+        <span id="tx-count" class="text-xs text-ios-muted bg-white px-2.5 py-1 rounded-xl border border-slate-200">0 Item</span>
       </div>
       <div id="transaction-log-list" class="space-y-2.5"></div>
     </section>
 
-    <!-- ==================== TAB 3: CHARTS & ANALYTICS ==================== -->
+    <!-- ==================== TAB 3: CHARTS & ANALYTICS (Feature 3 & 4) ==================== -->
     <section id="tab-grafik" class="space-y-6 hidden">
-      <div class="ios-card-solid rounded-3xl p-5 border border-slate-200 space-y-4">
-        <h4 class="text-xs font-bold text-ios-text uppercase tracking-wider text-center">Cashflow Analysis</h4>
-        <div class="relative h-60 w-full flex justify-center items-center"><canvas id="chart-income-expense"></canvas></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Cashflow Bar Chart -->
+        <div class="ios-card-solid rounded-3xl p-5 border border-slate-200 space-y-4">
+          <h4 class="text-xs font-bold text-ios-text uppercase tracking-wider text-center">Analisis Arus Kas (Masuk vs Keluar)</h4>
+          <div class="relative h-60 w-full flex justify-center items-center"><canvas id="chart-income-expense"></canvas></div>
+        </div>
+
+        <!-- Feature 3: Budget Pos Allocation Pie Chart -->
+        <div class="ios-card-solid rounded-3xl p-5 border border-slate-200 space-y-4">
+          <h4 class="text-xs font-bold text-ios-text uppercase tracking-wider text-center">Diagram Alokasi Budget Pos (Pie Chart)</h4>
+          <div class="relative h-60 w-full flex justify-center items-center"><canvas id="chart-budget-pie"></canvas></div>
+        </div>
       </div>
     </section>
 
-    <!-- ==================== TAB 4: ASSETS & MILESTONES ==================== -->
+    <!-- ==================== TAB 4: ASSETS & MILESTONES (Feature 5) ==================== -->
     <section id="tab-aset" class="space-y-6 hidden">
       <!-- NET WORTH SUMMARY -->
       <div class="ios-card-gradient rounded-3xl p-6">
-        <span class="text-xs font-bold text-blue-100 uppercase tracking-wider block mb-1">Total Net Worth</span>
+        <span class="text-xs font-bold text-blue-100 uppercase tracking-wider block mb-1">Total Kekayaan Bersih (Net Worth)</span>
         <h2 id="total-net-worth" class="text-3xl font-black text-white">Rp 0</h2>
-        <p class="text-xs text-blue-100 mt-1">Liquid Cash + Fixed Assets (CBR 250R, Vario 150, Gold Antam 7g)</p>
+        <p class="text-xs text-blue-100 mt-1">Saldo Likuid + Total Aset Tetap (Tersinkronisasi dari Sheet ASSETS)</p>
+      </div>
+
+      <!-- ASSETS SHEET MANAGED LIST -->
+      <div class="ios-card-solid rounded-3xl p-5 space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-xs font-bold text-ios-text uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-gem text-ios-blue"></i> Daftar Aset Tetap & Investasi
+            </h3>
+            <p class="text-[10px] text-ios-muted">Kelola dan ubah nilai aset secara langsung melalui sheet <b>ASSETS</b> di spreadsheet.</p>
+          </div>
+          <button onclick="fetchLiveData()" class="px-2.5 py-1 bg-blue-50 text-ios-blue rounded-xl text-xs font-bold hover:bg-blue-100 transition">
+            Sync Aset
+          </button>
+        </div>
+        <div id="assets-list-container" class="space-y-2.5"></div>
       </div>
 
       <!-- WEALTH MILESTONES -->
       <div class="ios-card-solid rounded-3xl p-5 space-y-4">
         <h3 class="text-xs font-bold text-ios-text uppercase tracking-wider flex items-center gap-1.5">
-          <i class="fa-solid fa-trophy text-amber-500"></i> Wealth Accumulation Milestones
+          <i class="fa-solid fa-trophy text-amber-500"></i> Milestone Akumulasi Kekayaan
         </h3>
-        <div id="milestones-container" class="space-y-3">
-          <!-- Rendered via JS -->
-        </div>
+        <div id="milestones-container" class="space-y-3"></div>
       </div>
     </section>
 
@@ -334,7 +360,7 @@
   <div id="modal-form" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-end sm:items-center justify-center hidden z-50 p-0 sm:p-4">
     <div class="ios-card-solid rounded-t-3xl sm:rounded-3xl w-full max-w-md p-6 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h4 id="modal-title" class="text-sm font-bold text-ios-text">Record Transaction</h4>
+        <h4 id="modal-title" class="text-sm font-bold text-ios-text">Catat Transaksi</h4>
         <button onclick="closeModal()" class="text-ios-muted hover:text-ios-text p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
@@ -342,69 +368,61 @@
         <input type="hidden" id="form-mode-type" value="DIGITAL_EXPENSE" />
 
         <div>
-          <label class="text-ios-muted mb-1 block font-medium">Date</label>
+          <label class="text-ios-muted mb-1 block font-medium">Tanggal</label>
           <input type="date" id="form-date" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue" />
         </div>
 
         <div>
-          <label id="label-amount" class="text-ios-muted mb-1 block font-medium">Amount (Rp)</label>
+          <label id="label-amount" class="text-ios-muted mb-1 block font-medium">Nominal (Rp)</label>
           <input type="number" id="form-amount" min="1" required placeholder="50000" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue text-sm font-bold" />
         </div>
 
         <!-- ADMIN FEE (For Withdrawal & Fund Transfer) -->
         <div id="group-admin" class="hidden">
-          <label class="text-ios-muted mb-1 block font-medium">Admin Fee (Optional)</label>
-          <input type="number" id="form-admin" placeholder="2500 or leave blank" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue" />
+          <label class="text-ios-muted mb-1 block font-medium">Biaya Admin (Opsional)</label>
+          <input type="number" id="form-admin" placeholder="2500 atau kosongkan" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue" />
         </div>
 
         <!-- CATEGORY -->
         <div id="group-category">
-          <label class="text-ios-muted mb-1 block font-medium">Category</label>
+          <label class="text-ios-muted mb-1 block font-medium">Kategori Pos Anggaran</label>
           <select id="form-category" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue font-semibold">
-            <option value="Makanan">Makanan / Food & Dining</option>
-            <option value="Tempat Tinggal">Tempat Tinggal / Rent & Housing</option>
-            <option value="Listrik dan Pulsa">Listrik dan Pulsa / Utilities & Data</option>
-            <option value="Belanja Shopee">Belanja Shopee / E-Commerce</option>
-            <option value="Kebutuhan Pribadi">Kebutuhan Pribadi / Personal Needs</option>
-            <option value="Administrasi">Administrasi / Admin Fees</option>
-            <option value="Transportasi">Transportasi / Transport</option>
-            <option value="Hiburan">Hiburan / Entertainment</option>
-            <option value="Berbagi">Berbagi / Charity & Family</option>
-            <option value="Investasi">Investasi / Investments</option>
+            <!-- Dynamically populated from budgetMaster -->
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <!-- SOURCE ACCOUNT -->
           <div id="group-source">
-            <label id="label-source" class="text-ios-muted mb-1 block font-medium">Source Account</label>
+            <label id="label-source" class="text-ios-muted mb-1 block font-medium">Sumber Dana</label>
             <select id="form-source" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none font-semibold">
               <option value="BCA">BCA Bank</option>
               <option value="Permata">Permata Bank</option>
-              <option value="E-Wallet">E-Wallet (GoPay/OVO)</option>
-              <option value="E-Money">E-Money (Flazz)</option>
-              <option value="Cash" id="opt-source-cash">Physical Cash</option>
+              <option value="OVO">OVO E-Wallet</option>
+              <option value="ShopeePay">ShopeePay</option>
+              <option value="E-Money">E-Money Flazz</option>
+              <option value="Cash" id="opt-source-cash">Cash Tunai</option>
             </select>
           </div>
 
-          <!-- TARGET ACCOUNT (For Transfer / Income) -->
+          <!-- TARGET ACCOUNT (For Transfer / Income Destination) -->
           <div id="group-target" class="hidden">
-            <label id="label-target" class="text-ios-muted mb-1 block font-medium">Destination Account</label>
+            <label id="label-target" class="text-ios-muted mb-1 block font-medium">Tujuan Saldo</label>
             <select id="form-target" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none font-semibold">
-              <option value="Cash">Physical Cash</option>
-              <option value="BCA">BCA Bank</option>
-              <option value="Permata">Permata Bank</option>
-              <option value="E-Wallet">E-Wallet (GoPay/OVO)</option>
-              <option value="E-Money">E-Money (Flazz)</option>
+              <option value="BCA">Saldo ATM (BCA)</option>
+              <option value="Permata">Saldo ATM (Permata)</option>
+              <option value="OVO">Saldo E-Wallet (OVO)</option>
+              <option value="ShopeePay">Saldo E-Wallet (ShopeePay)</option>
+              <option value="Cash">Saldo Cash (Tunai)</option>
             </select>
           </div>
 
-          <!-- PAYMENT METHOD (Hidden for Withdrawal & Income) -->
+          <!-- PAYMENT METHOD -->
           <div id="group-method">
-            <label class="text-ios-muted mb-1 block font-medium">Payment Method</label>
+            <label class="text-ios-muted mb-1 block font-medium">Metode Pembayaran</label>
             <select id="form-method" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none font-semibold">
               <option value="Qris">QRIS</option>
-              <option value="Transfer">Bank Transfer</option>
+              <option value="Transfer">Transfer Bank</option>
               <option value="Cash">Cash</option>
             </select>
           </div>
@@ -412,11 +430,11 @@
 
         <!-- NOTE -->
         <div>
-          <label class="text-ios-muted mb-1 block font-medium">Description / Note</label>
-          <input type="text" id="form-note" placeholder="Short description..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue" />
+          <label class="text-ios-muted mb-1 block font-medium">Keterangan / Deskripsi</label>
+          <input type="text" id="form-note" placeholder="Catatan transaksi..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none focus:border-ios-blue" />
         </div>
 
-        <button type="submit" id="submit-btn" class="w-full bg-ios-blue hover:bg-blue-600 text-white font-bold p-3.5 rounded-2xl transition text-sm shadow-md shadow-blue-500/20">Save Transaction</button>
+        <button type="submit" id="submit-btn" class="w-full bg-ios-blue hover:bg-blue-600 text-white font-bold p-3.5 rounded-2xl transition text-sm shadow-md shadow-blue-500/20">Simpan Transaksi</button>
       </form>
     </div>
   </div>
@@ -425,20 +443,20 @@
   <div id="modal-plan" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center hidden z-50 p-4">
     <div class="ios-card-solid rounded-3xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h4 class="text-sm font-bold text-ios-text">Add Monthly Plan</h4>
+        <h4 class="text-sm font-bold text-ios-text">Tambah Rencana Komitmen</h4>
         <button onclick="closePlanModal()" class="text-ios-muted hover:text-ios-text p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
       <form onsubmit="handleSavePlan(event)" class="space-y-3 text-xs">
         <div>
-          <label class="text-ios-muted mb-1 block font-medium">Plan Item Name</label>
-          <input type="text" id="plan-title" required placeholder="e.g., Insurance, Car Service" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none" />
+          <label class="text-ios-muted mb-1 block font-medium">Nama Komitmen</label>
+          <input type="text" id="plan-title" required placeholder="Contoh: Servis Motor, Asuransi" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none" />
         </div>
         <div>
-          <label class="text-ios-muted mb-1 block font-medium">Estimated Cost (Rp)</label>
+          <label class="text-ios-muted mb-1 block font-medium">Estimasi Biaya (Rp)</label>
           <input type="number" id="plan-amount" min="1" required placeholder="1500000" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ios-text focus:outline-none text-sm font-bold" />
         </div>
-        <button type="submit" class="w-full bg-ios-purple text-white font-bold p-3.5 rounded-2xl transition text-sm shadow-md shadow-purple-500/20">Add Commitment</button>
+        <button type="submit" class="w-full bg-ios-purple text-white font-bold p-3.5 rounded-2xl transition text-sm shadow-md shadow-purple-500/20">Simpan Rencana</button>
       </form>
     </div>
   </div>
@@ -448,23 +466,28 @@
     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center text-ios-blue transition"><i class="fa-solid fa-house text-base"></i><span class="text-[10px] mt-1 font-semibold">Home</span></button>
     <button onclick="switchTab('transaksi')" id="nav-transaksi" class="flex flex-col items-center text-ios-muted hover:text-ios-text transition"><i class="fa-solid fa-receipt text-base"></i><span class="text-[10px] mt-1 font-semibold">Log</span></button>
     <button onclick="switchTab('grafik')" id="nav-grafik" class="flex flex-col items-center text-ios-muted hover:text-ios-text transition"><i class="fa-solid fa-chart-pie text-base"></i><span class="text-[10px] mt-1 font-semibold">Analytics</span></button>
-    <button onclick="switchTab('aset')" id="nav-aset" class="flex flex-col items-center text-ios-muted hover:text-ios-text transition"><i class="fa-solid fa-gem text-base"></i><span class="text-[10px] mt-1 font-semibold">Assets</span></button>
+    <button onclick="switchTab('aset')" id="nav-aset" class="flex flex-col items-center text-ios-muted hover:text-ios-text transition"><i class="fa-solid fa-gem text-base"></i><span class="text-[10px] mt-1 font-semibold">Aset</span></button>
   </nav>
 
   <!-- JAVASCRIPT APP LOGIC -->
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBxVGhQ7dSDFVHOijdX0MiqRn8HlHxFNDxFLzz4PX5jZqwGI_KVJvwRJQfOleQFfb8pg/exec';
-    const INITIAL_BALANCES = { bca: 9509000, permata: 0, ewallet: 0, emoney: 0, cash: 0 };
-    const FIXED_ASSETS_VALUE = 76202500;
-    const MILESTONE_TARGETS = [25000000, 50000000, 76202500, 100000000, 250000000];
-
+    
+    let initialBalances = { bca: 9509000, permata: 0, ovo: 0, shopeepay: 0, emoney: 0, cash: 0 };
+    let budgetMaster = [];
+    let assetsList = [];
     let transactions = [];
     let monthlyPlans = JSON.parse(localStorage.getItem('artha_monthly_plans') || '[]');
     let incExpChartInstance = null;
+    let budgetPieChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
       const activeUser = localStorage.getItem('activeUser');
       if (activeUser) {
+        try {
+          const userObj = JSON.parse(activeUser);
+          document.getElementById('user-greeting-name').innerText = `Halo, ${userObj.name || 'Artha User'}`;
+        } catch(e) {}
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
         fetchLiveData();
@@ -478,10 +501,10 @@
       const isLogin = modeInput.value === 'login';
       modeInput.value = isLogin ? 'register' : 'login';
       document.getElementById('group-name').classList.toggle('hidden', !isLogin);
-      document.getElementById('auth-title').innerText = isLogin ? 'Create Account' : 'Artha Finance';
-      document.getElementById('auth-btn-text').innerText = isLogin ? 'Register' : 'Log In';
-      document.getElementById('auth-toggle-text').innerText = isLogin ? 'Already have an account?' : "Don't have an account?";
-      document.getElementById('auth-toggle-btn').innerText = isLogin ? 'Log In' : 'Register Now';
+      document.getElementById('auth-title').innerText = isLogin ? 'Buat Akun Artha' : 'Artha Finance';
+      document.getElementById('auth-btn-text').innerText = isLogin ? 'Daftar' : 'Masuk Akun';
+      document.getElementById('auth-toggle-text').innerText = isLogin ? 'Sudah punya akun?' : 'Belum punya akun?';
+      document.getElementById('auth-toggle-btn').innerText = isLogin ? 'Masuk' : 'Daftar Sekarang';
     }
 
     async function handleAuthSubmit(e) {
@@ -496,13 +519,15 @@
         const result = await res.json();
         if (result.status === 'success') {
           showToast(result.message, 'success');
-          if (mode === 'login') {
-            localStorage.setItem('activeUser', JSON.stringify(result.user));
+          if (mode === 'login' || mode === 'register') {
+            const userData = result.user || { name: document.getElementById('reg-name')?.value || 'Artha User' };
+            localStorage.setItem('activeUser', JSON.stringify(userData));
+            document.getElementById('user-greeting-name').innerText = `Halo, ${userData.name}`;
             document.getElementById('auth-screen').classList.add('hidden');
             fetchLiveData();
-          } else { toggleAuthMode(); }
+          }
         } else { showToast(result.message, 'error'); }
-      } catch (err) { showToast('Server connection failed.', 'error'); }
+      } catch (err) { showToast('Gagal terhubung ke server backend.', 'error'); }
     }
 
     function handleLogout() {
@@ -523,13 +548,26 @@
 
     async function fetchLiveData() {
       const period = document.getElementById('period-selector').value;
+      const activeUserStr = localStorage.getItem('activeUser');
+      let userId = '';
+      if(activeUserStr) {
+        try { userId = JSON.parse(activeUserStr).userId || ''; } catch(e){}
+      }
+
       try {
-        const res = await fetch(`${SCRIPT_URL}?action=getTransactions&period=${period}`, { cache: 'no-cache' });
+        const res = await fetch(`${SCRIPT_URL}?action=getTransactions&period=${period}&userId=${userId}`, { cache: 'no-cache' });
         if (res.ok) {
           const data = await res.json();
-          if (data && Array.isArray(data.logs)) { transactions = data.logs; }
+          if (data) {
+            if (Array.isArray(data.logs)) transactions = data.logs;
+            if (data.balances) initialBalances = data.balances;
+            if (Array.isArray(data.budgets)) budgetMaster = data.budgets;
+            if (Array.isArray(data.assets)) assetsList = data.assets;
+          }
         }
-      } catch (err) { console.warn('Offline mode active.'); }
+      } catch (err) { console.warn('Mode offline aktif.'); }
+      
+      populateCategoryDropdown();
       recalculateAndRender();
     }
 
@@ -537,14 +575,28 @@
       fetchLiveData();
     }
 
-    function formatRp(val) { return 'Rp ' + Math.round(val).toLocaleString('en-US'); }
+    function formatRp(val) { return 'Rp ' + Math.round(val).toLocaleString('id-ID'); }
+
+    function populateCategoryDropdown() {
+      const select = document.getElementById('form-category');
+      if (!select) return;
+      select.innerHTML = '';
+      if (budgetMaster && budgetMaster.length > 0) {
+        budgetMaster.forEach(b => {
+          select.insertAdjacentHTML('beforeend', `<option value="${b.category}">${b.category}</option>`);
+        });
+      } else {
+        select.innerHTML = `<option value="Makanan">Makanan</option><option value="Transportasi">Transportasi</option>`;
+      }
+    }
 
     function computeFinancials() {
-      let bca = INITIAL_BALANCES.bca;
-      let permata = INITIAL_BALANCES.permata;
-      let ewallet = INITIAL_BALANCES.ewallet;
-      let emoney = INITIAL_BALANCES.emoney;
-      let cash = INITIAL_BALANCES.cash;
+      let bca = initialBalances.bca;
+      let permata = initialBalances.permata;
+      let ovo = initialBalances.ovo;
+      let shopeepay = initialBalances.shopeepay;
+      let emoney = initialBalances.emoney;
+      let cash = initialBalances.cash;
 
       let totalIncome = 0;
       let totalExpense = 0;
@@ -555,38 +607,43 @@
 
         if (tx.type === 'Income' || tx.type === 'Pemasukan') {
           totalIncome += amt;
-          if (tx.source === 'BCA') bca += amt;
-          else if (tx.source === 'Permata') permata += amt;
-          else if (tx.source === 'E-Wallet') ewallet += amt;
-          else if (tx.source === 'E-Money') emoney += amt;
-          else if (tx.source === 'Cash') cash += amt;
+          if (tx.source === 'BCA' || tx.target === 'BCA') bca += amt;
+          else if (tx.source === 'Permata' || tx.target === 'Permata') permata += amt;
+          else if (tx.source === 'OVO' || tx.target === 'OVO') ovo += amt;
+          else if (tx.source === 'ShopeePay' || tx.target === 'ShopeePay') shopeepay += amt;
+          else if (tx.source === 'Cash' || tx.target === 'Cash') cash += amt;
         } else if (tx.type === 'Expense' || tx.type === 'Pengeluaran') {
           totalExpense += amt;
           if (tx.source === 'BCA') bca -= amt;
           else if (tx.source === 'Permata') permata -= amt;
-          else if (tx.source === 'E-Wallet') ewallet -= amt;
+          else if (tx.source === 'OVO') ovo -= amt;
+          else if (tx.source === 'ShopeePay') shopeepay -= amt;
           else if (tx.source === 'E-Money') emoney -= amt;
           else if (tx.source === 'Cash') cash -= amt;
+          
           categoryExpenses[tx.category] = (categoryExpenses[tx.category] || 0) + amt;
         } else if (tx.type === 'Transfer') {
           if (tx.source === 'BCA') bca -= amt;
           else if (tx.source === 'Permata') permata -= amt;
-          else if (tx.source === 'E-Wallet') ewallet -= amt;
+          else if (tx.source === 'OVO') ovo -= amt;
+          else if (tx.source === 'ShopeePay') shopeepay -= amt;
           else if (tx.source === 'E-Money') emoney -= amt;
           else if (tx.source === 'Cash') cash -= amt;
 
           if (tx.target === 'Cash') cash += amt;
           else if (tx.target === 'BCA') bca += amt;
           else if (tx.target === 'Permata') permata += amt;
-          else if (tx.target === 'E-Wallet') ewallet += amt;
+          else if (tx.target === 'OVO') ovo += amt;
+          else if (tx.target === 'ShopeePay') shopeepay += amt;
           else if (tx.target === 'E-Money') emoney += amt;
         }
       });
 
-      const totalLiquid = bca + permata + ewallet + emoney + cash;
-      const totalNetWorth = totalLiquid + FIXED_ASSETS_VALUE;
+      const totalLiquid = bca + permata + ovo + shopeepay + emoney + cash;
+      const totalFixedAssets = assetsList.reduce((acc, curr) => acc + curr.value, 0);
+      const totalNetWorth = totalLiquid + totalFixedAssets;
 
-      return { bca, permata, ewallet, emoney, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth, categoryExpenses };
+      return { bca, permata, ovo, shopeepay, emoney, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth, totalFixedAssets, categoryExpenses };
     }
 
     function recalculateAndRender() {
@@ -598,7 +655,8 @@
 
       document.getElementById('card-bca-balance').innerText = formatRp(fin.bca);
       document.getElementById('card-permata-balance').innerText = formatRp(fin.permata);
-      document.getElementById('card-ewallet-balance').innerText = formatRp(fin.ewallet);
+      document.getElementById('card-ovo-balance').innerText = formatRp(fin.ovo);
+      document.getElementById('card-shopeepay-balance').innerText = formatRp(fin.shopeepay);
       document.getElementById('card-emoney-balance').innerText = formatRp(fin.emoney);
       document.getElementById('card-cash-balance').innerText = formatRp(fin.cash);
 
@@ -607,7 +665,8 @@
       renderMonthlyPlans(fin.totalLiquid);
       renderBudgetLimits(fin.categoryExpenses);
       renderTransactionsList();
-      renderCharts(fin.totalIncome, fin.totalExpense);
+      renderAssetsList();
+      renderCharts(fin.totalIncome, fin.totalExpense, fin.categoryExpenses);
       renderMilestones(fin.totalNetWorth);
     }
 
@@ -617,7 +676,7 @@
       let totalPlannedCost = 0;
 
       if (monthlyPlans.length === 0) {
-        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-2">No planned commitments added yet.</p>`;
+        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-2">Belum ada rencana komitmen ditambahkan.</p>`;
       } else {
         monthlyPlans.forEach((plan, idx) => {
           totalPlannedCost += plan.amount;
@@ -625,7 +684,7 @@
             <div class="flex justify-between items-center bg-slate-50 p-2.5 rounded-2xl border border-slate-100 text-xs">
               <div>
                 <span class="font-bold text-ios-text block">${plan.title}</span>
-                <span class="text-[10px] text-ios-muted">Estimated Cost</span>
+                <span class="text-[10px] text-ios-muted">Estimasi Biaya</span>
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-extrabold text-ios-purple">${formatRp(plan.amount)}</span>
@@ -651,7 +710,7 @@
       localStorage.setItem('artha_monthly_plans', JSON.stringify(monthlyPlans));
       closePlanModal();
       recalculateAndRender();
-      showToast('Monthly plan commitment added!', 'success');
+      showToast('Rencana komitmen berhasil ditambahkan!', 'success');
     }
 
     function removePlan(idx) {
@@ -660,46 +719,72 @@
       recalculateAndRender();
     }
 
- function renderBudgetLimits(catExpenses) {
-  const container = document.getElementById('budget-limits-list');
-  container.innerHTML = '';
+    // Feature 2 & 3: Render Budget Pos Allocation with Pie Chart support
+    function renderBudgetLimits(catExpenses) {
+      const container = document.getElementById('budget-limits-list');
+      container.innerHTML = '';
 
-  // Menggunakan data live dari Google Spreadsheet (BUDGET_MASTER)
-  if (budgetMaster && budgetMaster.length > 0) {
-    budgetMaster.forEach(item => {
-      const cat = item.category;
-      const limit = Number(item.limit) || 0;
-      const spent = catExpenses[cat] || 0;
-      const percent = limit > 0 ? Math.min(Math.round((spent / limit) * 100), 100) : 0;
-      const isOver = spent > limit;
+      if (budgetMaster && budgetMaster.length > 0) {
+        budgetMaster.forEach(item => {
+          const cat = item.category;
+          const limit = Number(item.limit) || 0;
+          const spent = catExpenses[cat] || 0;
+          const percent = limit > 0 ? Math.min(Math.round((spent / limit) * 100), 100) : 0;
+          const isOver = spent > limit;
 
-      container.insertAdjacentHTML('beforeend', `
-        <div class="ios-card-solid rounded-2xl p-3.5 space-y-2">
-          <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-ios-text">${cat}</span>
-            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isOver ? 'bg-rose-50 text-ios-red' : 'bg-emerald-50 text-ios-green'}">
-              ${isOver ? 'OVERBUDGET' : percent + '% USED'}
-            </span>
+          container.insertAdjacentHTML('beforeend', `
+            <div class="ios-card-solid rounded-2xl p-3.5 space-y-2">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-ios-text">${cat}</span>
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isOver ? 'bg-rose-50 text-ios-red' : 'bg-emerald-50 text-ios-green'}">
+                  ${isOver ? 'OVERBUDGET' : percent + '% TERPAKAI'}
+                </span>
+              </div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div class="h-full rounded-full ${isOver ? 'bg-ios-red' : 'bg-ios-blue'}" style="width: ${percent}%"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-ios-muted">
+                <span>Terpakai: ${formatRp(spent)}</span>
+                <span>Limit: ${formatRp(limit)}</span>
+              </div>
+            </div>
+          `);
+        });
+      } else {
+        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-2">Master budget belum tersedia.</p>`;
+      }
+    }
+
+    // Feature 5: Render Assets from Spreadsheet Sheet
+    function renderAssetsList() {
+      const container = document.getElementById('assets-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (assetsList.length === 0) {
+        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-4">Belum ada data aset di sheet ASSETS.</p>`;
+        return;
+      }
+
+      assetsList.forEach(asset => {
+        container.insertAdjacentHTML('beforeend', `
+          <div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl border border-slate-100 text-xs">
+            <div>
+              <span class="font-bold text-ios-text block">${asset.name}</span>
+              <span class="text-[10px] text-ios-muted">${asset.category} • ${asset.note || '-'}</span>
+            </div>
+            <span class="font-extrabold text-ios-blue">${formatRp(asset.value)}</span>
           </div>
-          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-            <div class="h-full rounded-full ${isOver ? 'bg-ios-red' : 'bg-ios-blue'}" style="width: ${percent}%"></div>
-          </div>
-          <div class="flex justify-between text-[10px] text-ios-muted">
-            <span>Spent: ${formatRp(spent)}</span>
-            <span>Limit: ${formatRp(limit)}</span>
-          </div>
-        </div>
-      `);
-    });
-  }
-}
+        `);
+      });
+    }
 
     function renderTransactionsList() {
       const container = document.getElementById('transaction-log-list');
-      document.getElementById('tx-count').innerText = `${transactions.length} Items`;
+      document.getElementById('tx-count').innerText = `${transactions.length} Item`;
 
       if (transactions.length === 0) {
-        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-8">No transactions found for this period.</p>`;
+        container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-8">Tidak ada riwayat transaksi pada periode ini.</p>`;
         return;
       }
 
@@ -716,24 +801,45 @@
       `).join('');
     }
 
-    function renderCharts(totalInc, totalExp) {
-      const ctx = document.getElementById('chart-income-expense').getContext('2d');
+    // Feature 3: Render Bar chart & Budget Pos Allocation Pie/Doughnut Chart
+    function renderCharts(totalInc, totalExp, catExpenses) {
+      const ctxBar = document.getElementById('chart-income-expense').getContext('2d');
       if (incExpChartInstance) incExpChartInstance.destroy();
-      incExpChartInstance = new Chart(ctx, {
+      incExpChartInstance = new Chart(ctxBar, {
         type: 'bar',
         data: {
-          labels: ['Income', 'Expenses'],
+          labels: ['Pemasukan', 'Pengeluaran'],
           datasets: [{ data: [totalInc, totalExp], backgroundColor: ['#34c759', '#ff3b30'], borderRadius: 12 }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+
+      const ctxPie = document.getElementById('chart-budget-pie').getContext('2d');
+      if (budgetPieChartInstance) budgetPieChartInstance.destroy();
+
+      const pieLabels = Object.keys(catExpenses);
+      const pieData = Object.values(catExpenses);
+
+      budgetPieChartInstance = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+          labels: pieLabels.length > 0 ? pieLabels : ['Belum Ada Pengeluaran'],
+          datasets: [{
+            data: pieData.length > 0 ? pieData : [1],
+            backgroundColor: ['#007aff', '#34c759', '#ff9500', '#af52de', '#ff3b30', '#5856d6', '#5ac8fa', '#4cd964', '#ffcc00', '#ff2d55'],
+            borderWidth: 2
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } }
       });
     }
 
     function renderMilestones(netWorth) {
       const container = document.getElementById('milestones-container');
       container.innerHTML = '';
+      const milestoneTargets = [25000000, 50000000, 100000000, 250000000, 500000000];
 
-      MILESTONE_TARGETS.forEach(target => {
+      milestoneTargets.forEach(target => {
         const pct = Math.min(100, Math.max(0, Math.round((netWorth / target) * 100)));
         const isAchieved = netWorth >= target;
 
@@ -742,7 +848,7 @@
             <div class="flex justify-between items-center text-xs">
               <span class="font-bold text-ios-text">Target: ${formatRp(target)}</span>
               <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isAchieved ? 'bg-emerald-50 text-ios-green' : 'bg-blue-50 text-ios-blue'}">
-                ${isAchieved ? '🏆 ACHIEVED' : pct + '%'}
+                ${isAchieved ? '🏆 TERCAPAI' : pct + '%'}
               </span>
             </div>
             <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
@@ -771,36 +877,44 @@
       optSourceCash.disabled = false;
 
       if (mode === 'WITHDRAWAL') {
-        document.getElementById('modal-title').innerText = '🏧 Cash Withdrawal';
+        document.getElementById('modal-title').innerText = '🏧 Tarik Tunai ATM';
         groupAdmin.classList.remove('hidden');
         groupCat.classList.add('hidden');
         groupMethod.classList.add('hidden');
         optSourceCash.disabled = true;
         document.getElementById('form-source').value = 'BCA';
       } else if (mode === 'FUND_TRANSFER') {
-        document.getElementById('modal-title').innerText = '🔄 Fund Transfer';
+        document.getElementById('modal-title').innerText = '🔄 Transfer Antar Rekening';
         groupAdmin.classList.remove('hidden');
         groupTarget.classList.remove('hidden');
         groupCat.classList.add('hidden');
         document.getElementById('form-source').value = 'BCA';
-        document.getElementById('form-target').value = 'E-Wallet';
+        document.getElementById('form-target').value = 'OVO';
       } else if (mode === 'CASH_EXPENSE') {
-        document.getElementById('modal-title').innerText = '💵 Cash Expense';
+        // Feature 8: Cash Expenses automatically take from Physical Cash without manual selection
+        document.getElementById('modal-title').innerText = '💵 Jajan / Pengeluaran Cash';
+        groupSource.classList.add('hidden');
         document.getElementById('form-source').value = 'Cash';
       } else if (mode === 'DIGITAL_EXPENSE') {
-        document.getElementById('modal-title').innerText = '💳 Digital Expense';
+        document.getElementById('modal-title').innerText = '💳 Pengeluaran Digital / QRIS';
         optSourceCash.disabled = true;
+        groupSource.classList.remove('hidden');
         document.getElementById('form-source').value = 'BCA';
       } else if (mode === 'INCOME') {
-        document.getElementById('modal-title').innerText = '💰 Income Entry';
+        // Feature 7: Income menu with date, nominal, destination saldo (ATM vs cash), note
+        document.getElementById('modal-title').innerText = '💰 Pemasukan Kas / Saldo';
         groupTarget.classList.remove('hidden');
+        groupSource.classList.add('hidden');
         groupMethod.classList.add('hidden');
+        groupCat.classList.add('hidden');
+        document.getElementById('form-target').value = 'BCA';
       }
     }
 
     function closeModal() {
       document.getElementById('modal-form').classList.add('hidden');
       document.getElementById('tx-form').reset();
+      document.getElementById('group-source').classList.remove('hidden');
     }
 
     async function handleFormSubmit(e) {
@@ -808,22 +922,36 @@
       const mode = document.getElementById('form-mode-type').value;
       const amount = Number(document.getElementById('form-amount').value);
       const admin = Number(document.getElementById('form-admin').value) || 0;
-      const source = document.getElementById('form-source').value;
+      let source = document.getElementById('form-source').value;
       const target = document.getElementById('form-target').value;
-      const note = document.getElementById('form-note').value || 'Transaction';
+      const note = document.getElementById('form-note').value || 'Transaksi';
+
+      if (mode === 'CASH_EXPENSE') {
+        source = 'Cash';
+      }
+      if (mode === 'INCOME') {
+        source = target; // Income goes directly to chosen target destination (ATM or Cash)
+      }
+
+      const activeUserStr = localStorage.getItem('activeUser');
+      let userId = '';
+      if(activeUserStr) {
+        try { userId = JSON.parse(activeUserStr).userId || ''; } catch(e){}
+      }
 
       const payload = {
         date: document.getElementById('form-date').value,
         isWithdrawal: mode === 'WITHDRAWAL',
         isFundTransfer: mode === 'FUND_TRANSFER',
         type: mode === 'INCOME' ? 'Income' : (mode === 'WITHDRAWAL' || mode === 'FUND_TRANSFER' ? 'Transfer' : 'Expense'),
-        category: document.getElementById('form-category').value,
+        category: mode === 'INCOME' ? 'Pemasukan' : document.getElementById('form-category').value,
         amount: amount,
         admin: admin,
         source: source,
         target: target,
         method: document.getElementById('form-method').value,
-        note: note
+        note: note,
+        userId: userId
       };
 
       if (mode === 'WITHDRAWAL') {
@@ -838,11 +966,11 @@
 
       recalculateAndRender();
       closeModal();
-      showToast('Transaction recorded successfully!', 'success');
+      showToast('Transaksi berhasil disimpan!', 'success');
 
       try {
         await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-      } catch (err) { console.warn('Background sync warning'); }
+      } catch (err) { console.warn('Peringatan sinkronisasi background'); }
     }
 
     function switchTab(tabName) {
