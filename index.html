@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Vault - Personal Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; }
+    .glass-card { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.8) 100%); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.2); }
+  </style>
+</head>
+<body class="text-slate-100 min-h-screen pb-28 max-w-md mx-auto relative border-x border-slate-800 shadow-2xl">
+
+  <!-- TOP HEADER -->
+  <header class="p-5 pt-7 bg-gradient-to-b from-emerald-950/40 via-slate-950 to-slate-950 border-b border-slate-800/80">
+    <div class="flex justify-between items-center mb-5">
+      <div>
+        <p className="text-[11px] font-bold text-emerald-400 tracking-wider uppercase">Financial App</p>
+        <h1 class="text-xl font-extrabold text-white">Dompet Personal 🚀</h1>
+      </div>
+      <button onclick="fetchData()" class="p-2.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white active:scale-95 transition">
+        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- MAIN WALLET CARD (DOMPET TUNAI + BANK) -->
+    <div class="glass-card rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+          <i data-lucide="wallet" class="w-4 h-4"></i> Saldo Dompet Tunai (Cash)
+        </span>
+        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">Fisik</span>
+      </div>
+
+      <h2 id="balance-cash" class="text-3xl font-black text-white tracking-tight my-1">Rp --</h2>
+
+      <!-- SALDO REKENING BANK -->
+      <div class="mt-4 pt-3 border-t border-slate-700/60 grid grid-cols-2 gap-2 text-xs">
+        <div>
+          <p class="text-[10px] text-slate-400 font-medium">Bank BCA</p>
+          <p id="balance-bca" class="font-bold text-slate-200">Rp --</p>
+        </div>
+        <div class="text-right">
+          <p class="text-[10px] text-slate-400 font-medium">Bank Permata</p>
+          <p id="balance-permata" class="font-bold text-slate-200">Rp --</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTION BUTTONS -->
+    <div class="grid grid-cols-3 gap-3 mt-4">
+      <button onclick="openModal('TRANSFER')" class="flex flex-col items-center justify-center bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/30 rounded-2xl p-3 transition active:scale-95 shadow-lg">
+        <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-1">
+          <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+        </div>
+        <span class="text-[11px] font-bold text-emerald-300">🏧 Tarik Tunai</span>
+      </button>
+
+      <button onclick="openModal('EXPENSE_CASH')" class="flex flex-col items-center justify-center bg-slate-900/90 hover:bg-slate-800 border border-slate-800 rounded-2xl p-3 transition active:scale-95">
+        <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mb-1">
+          <i data-lucide="utensils" class="w-5 h-5"></i>
+        </div>
+        <span class="text-[11px] font-bold text-slate-300">💵 Jajan Cash</span>
+      </button>
+
+      <button onclick="openModal('EXPENSE_GENERAL')" class="flex flex-col items-center justify-center bg-slate-900/90 hover:bg-slate-800 border border-slate-800 rounded-2xl p-3 transition active:scale-95">
+        <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mb-1">
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+        </div>
+        <span class="text-[11px] font-bold text-slate-300">💳 Pengeluaran</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BUDGET LIMIT PROGRESS SECTION -->
+  <main class="p-5 space-y-5">
+    <div>
+      <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3 flex items-center gap-2">
+        <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i> Kuota & Limit Anggaran
+      </h3>
+      <div id="budget-container" class="space-y-3">
+        <!-- Rendered by JS -->
+        <p class="text-xs text-slate-500 italic">Memuat data anggaran...</p>
+      </div>
+    </div>
+
+    <!-- RECENT TRANSACTIONS LOG -->
+    <div>
+      <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-3 flex items-center gap-2">
+        <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Transaksi Terakhir
+      </h3>
+      <div id="log-container" class="space-y-2.5">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL INPUT FORM -->
+  <div id="input-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-end justify-center hidden z-50">
+    <div class="bg-slate-900 border-t border-slate-800 rounded-t-3xl w-full max-w-md p-6 space-y-4 animate-in slide-in-from-bottom duration-200">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+        <h4 id="modal-title" class="text-base font-bold text-white">Tambah Transaksi</h4>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="tx-form" onsubmit="submitData(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="form-jenis" />
+
+        <div>
+          <label class="text-slate-400 mb-1 block">Nominal (Rp)</label>
+          <input type="number" id="form-nominal" required placeholder="Contoh: 50000" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500 text-sm font-semibold" />
+        </div>
+
+        <div id="group-kategori">
+          <label class="text-slate-400 mb-1 block">Kategori Pos</label>
+          <select id="form-kategori" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500">
+            <option value="Makanan">Makanan / Jajan</option>
+            <option value="Belanja Shopee">Belanja Shopee</option>
+            <option value="Tempat Tinggal">Tempat Tinggal / Kosan</option>
+            <option value="Kebutuhan Pribadi">Kebutuhan Pribadi</option>
+            <option value="Transportasi">Transportasi</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-slate-400 mb-1 block">Sumber Dana (Dari)</label>
+            <select id="form-sumber" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
+              <option value="BCA">Bank BCA</option>
+              <option value="Permata">Bank Permata</option>
+              <option value="Uang Tunai (Cash)">Uang Tunai (Cash)</option>
+            </select>
+          </div>
+
+          <div id="group-tujuan">
+            <label class="text-slate-400 mb-1 block">Tujuan (Ke)</label>
+            <select id="form-tujuan" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none">
+              <option value="Uang Tunai (Cash)">Uang Tunai (Cash)</option>
+              <option value="BCA">Bank BCA</option>
+              <option value="Permata">Bank Permata</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-slate-400 mb-1 block">Keterangan / Catatan</label>
+          <input type="text" id="form-ket" placeholder="Catatan singkat..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none" />
+        </div>
+
+        <button type="submit" id="submit-btn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold p-3.5 rounded-xl transition mt-2 active:scale-95 text-sm">
+          Simpan Transaksi
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ TEMPELKAN URL DEPLOY APPS SCRIPT KAMU DI SINI:
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx.../exec";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      fetchData();
+    });
+
+    async function fetchData() {
+      try {
+        const res = await fetch(https://script.google.com/macros/s/AKfycbwBxVGhQ7dSDFVHOijdX0MiqRn8HlHxFNDxFLzz4PX5jZqwGI_KVJvwRJQfOleQFfb8pg/exec);
+        const data = await res.json();
+        
+        // Update Saldo
+        document.getElementById("balance-cash").innerText = `Rp ${(data.balances.cash || 0).toLocaleString('id-ID')}`;
+        document.getElementById("balance-bca").innerText = `Rp ${(data.balances.bca || 0).toLocaleString('id-ID')}`;
+        document.getElementById("balance-permata").innerText = `Rp ${(data.balances.permata || 0).toLocaleString('id-ID')}`;
+
+        // Render Budget Limits
+        const budgetContainer = document.getElementById("budget-container");
+        budgetContainer.innerHTML = data.budgets.map(b => {
+          const percent = Math.min(Math.round((b.realisasi / b.limit) * 100) || 0, 100);
+          const isOver = b.realisasi > b.limit;
+          const isWarn = percent >= 85 && !isOver;
+
+          return `
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-slate-200">${b.kategori}</span>
+                <span class="font-bold ${isOver ? 'text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded' : isWarn ? 'text-amber-400' : 'text-emerald-400'}">
+                  ${b.status}
+                </span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="h-full ${isOver ? 'bg-rose-500' : isWarn ? 'bg-amber-400' : 'bg-emerald-500'}" style="width: ${percent}%"></div>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-400">
+                <span>Rp ${b.realisasi.toLocaleString('id-ID')} / Rp ${b.limit.toLocaleString('id-ID')}</span>
+                <span>${percent}%</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Render Recent Logs
+        const logContainer = document.getElementById("log-container");
+        logContainer.innerHTML = data.logs.map(l => `
+          <div class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-3 flex justify-between items-center text-xs">
+            <div>
+              <p class="font-semibold text-slate-200">${l.ket || l.kategori}</p>
+              <p class="text-[10px] text-slate-400">${l.tanggal} • ${l.sumber} ${l.jenis === 'Transfer' ? '➔ ' + l.tujuan : ''}</p>
+            </div>
+            <p class="font-bold ${l.jenis === 'Pengeluaran' ? 'text-rose-400' : l.jenis === 'Transfer' ? 'text-amber-400' : 'text-emerald-400'}">
+              ${l.jenis === 'Pengeluaran' ? '-' : '+'}Rp ${Number(l.nominal).toLocaleString('id-ID')}
+            </p>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        console.error("Gagal mengambil data:", err);
+      }
+    }
+
+    function openModal(mode) {
+      const modal = document.getElementById("input-modal");
+      const title = document.getElementById("modal-title");
+      const groupKat = document.getElementById("group-kategori");
+      const groupTuj = document.getElementById("group-tujuan");
+      const formJenis = document.getElementById("form-jenis");
+      const formSumber = document.getElementById("form-sumber");
+
+      modal.classList.remove("hidden");
+
+      if (mode === 'TRANSFER') {
+        title.innerText = "🏧 Tarik Tunai (Pindah Dana)";
+        formJenis.value = "Transfer";
+        groupKat.classList.add("hidden");
+        groupTuj.classList.remove("hidden");
+        formSumber.value = "BCA";
+      } else if (mode === 'EXPENSE_CASH') {
+        title.innerText = "💵 Jajan Cash (Uang Tunai)";
+        formJenis.value = "Pengeluaran";
+        groupKat.classList.remove("hidden");
+        groupTuj.classList.add("hidden");
+        formSumber.value = "Uang Tunai (Cash)";
+      } else {
+        title.innerText = "💳 Catat Pengeluaran";
+        formJenis.value = "Pengeluaran";
+        groupKat.classList.remove("hidden");
+        groupTuj.classList.add("hidden");
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("input-modal").classList.add("hidden");
+      document.getElementById("tx-form").reset();
+    }
+
+    async function submitData(e) {
+      e.preventDefault();
+      const btn = document.getElementById("submit-btn");
+      btn.innerText = "Menyimpan...";
+      btn.disabled = true;
+
+      const payload = {
+        jenis: document.getElementById("form-jenis").value,
+        nominal: document.getElementById("form-nominal").value,
+        kategori: document.getElementById("form-kategori").value,
+        sumber: document.getElementById("form-sumber").value,
+        tujuan: document.getElementById("form-tujuan").value,
+        ket: document.getElementById("form-ket").value,
+        tanggal: new Date().toISOString()
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        closeModal();
+        fetchData();
+      } catch (err) {
+        alert("Gagal menyimpan transaksi!");
+      } finally {
+        btn.innerText = "Simpan Transaksi";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
