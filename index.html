@@ -660,36 +660,39 @@
       recalculateAndRender();
     }
 
-    function renderBudgetLimits(catExpenses) {
-      const container = document.getElementById('budget-limits-list');
-      const defaultLimits = { 'Makanan': 1500000, 'Tempat Tinggal': 600000, 'Listrik dan Pulsa': 300000, 'Belanja Shopee': 300000, 'Kebutuhan Pribadi': 400000, 'Administrasi': 50000 };
-      container.innerHTML = '';
+ function renderBudgetLimits(catExpenses) {
+  const container = document.getElementById('budget-limits-list');
+  container.innerHTML = '';
 
-      Object.keys(defaultLimits).forEach(cat => {
-        const limit = defaultLimits[cat];
-        const spent = catExpenses[cat] || 0;
-        const percent = Math.min(Math.round((spent / limit) * 100), 100);
-        const isOver = spent > limit;
+  // Menggunakan data live dari Google Spreadsheet (BUDGET_MASTER)
+  if (budgetMaster && budgetMaster.length > 0) {
+    budgetMaster.forEach(item => {
+      const cat = item.category;
+      const limit = Number(item.limit) || 0;
+      const spent = catExpenses[cat] || 0;
+      const percent = limit > 0 ? Math.min(Math.round((spent / limit) * 100), 100) : 0;
+      const isOver = spent > limit;
 
-        container.insertAdjacentHTML('beforeend', `
-          <div class="ios-card-solid rounded-2xl p-3.5 space-y-2">
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-ios-text">${cat}</span>
-              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isOver ? 'bg-rose-50 text-ios-red' : 'bg-emerald-50 text-ios-green'}">
-                ${isOver ? 'OVERBUDGET' : percent + '% USED'}
-              </span>
-            </div>
-            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-              <div class="h-full rounded-full ${isOver ? 'bg-ios-red' : 'bg-ios-blue'}" style="width: ${percent}%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-ios-muted">
-              <span>Spent: ${formatRp(spent)}</span>
-              <span>Limit: ${formatRp(limit)}</span>
-            </div>
+      container.insertAdjacentHTML('beforeend', `
+        <div class="ios-card-solid rounded-2xl p-3.5 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-ios-text">${cat}</span>
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isOver ? 'bg-rose-50 text-ios-red' : 'bg-emerald-50 text-ios-green'}">
+              ${isOver ? 'OVERBUDGET' : percent + '% USED'}
+            </span>
           </div>
-        `);
-      });
-    }
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+            <div class="h-full rounded-full ${isOver ? 'bg-ios-red' : 'bg-ios-blue'}" style="width: ${percent}%"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-ios-muted">
+            <span>Spent: ${formatRp(spent)}</span>
+            <span>Limit: ${formatRp(limit)}</span>
+          </div>
+        </div>
+      `);
+    });
+  }
+}
 
     function renderTransactionsList() {
       const container = document.getElementById('transaction-log-list');
