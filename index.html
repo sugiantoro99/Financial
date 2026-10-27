@@ -136,9 +136,9 @@
         <!-- Feature 4: Monthly & Annual Analytics Period Selector -->
         <select id="period-selector" onchange="handlePeriodChange()" class="bg-slate-100 border border-slate-200 text-ios-text text-xs font-bold rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-ios-blue">
           <option value="ALL">Semua Riwayat</option>
-          <option value="2026-10" selected>Oktober 2026 (Bulanan)</option>
-          <option value="2026-11">November 2026 (Bulanan)</option>
-          <option value="2026-12">Desember 2026 (Bulanan)</option>
+          <option value="2026-10" selected>Oktober 2026</option>
+          <option value="2026-11">November 2026</option>
+          <option value="2026-12">Desember 2026</option>
           <option value="YEAR_2026">Analisis Tahunan 2026</option>
         </select>
         <button onclick="fetchLiveData()" title="Refresh Data" class="p-2 bg-slate-100 hover:bg-slate-200 text-ios-text rounded-xl transition active:scale-95 border border-slate-200">
@@ -270,7 +270,7 @@
             <h3 class="text-xs font-bold text-ios-text uppercase tracking-wider flex items-center gap-1.5">
               <i class="fa-solid fa-calendar-check text-ios-purple"></i> Rencana Komitmen Bulanan
             </h3>
-            <p class="text-[10px] text-ios-muted">Estimasi pengeluaran besar (belum mengurangi saldo berjalan)</p>
+            <p class="text-[10px] text-ios-muted">Estimasi pengeluaran besar</p>
           </div>
           <button onclick="openAddPlanModal()" class="px-2.5 py-1 bg-purple-50 text-ios-purple rounded-xl text-xs font-bold hover:bg-purple-100 transition">
             + Tambah Rencana
@@ -326,7 +326,7 @@
       <div class="ios-card-gradient rounded-3xl p-6">
         <span class="text-xs font-bold text-blue-100 uppercase tracking-wider block mb-1">Total Kekayaan Bersih (Net Worth)</span>
         <h2 id="total-net-worth" class="text-3xl font-black text-white">Rp 0</h2>
-        <p class="text-xs text-blue-100 mt-1">Saldo Likuid + Total Aset Tetap (Tersinkronisasi dari Sheet ASSETS)</p>
+        <p class="text-xs text-blue-100 mt-1">Saldo Likuid + Total Aset Tetap</p>
       </div>
 
       <!-- ASSETS SHEET MANAGED LIST -->
