@@ -127,13 +127,12 @@
               <span class="w-1.5 h-1.5 rounded-full bg-ios-green animate-ping"></span> Live Sync
             </span>
           </div>
-          <!-- Feature 6: User greeting / profile name like mobile banking -->
           <h1 id="user-greeting-name" class="text-base sm:text-lg font-extrabold text-ios-text tracking-tight">Halo, Artha User</h1>
         </div>
       </div>
       
       <div class="flex items-center gap-2">
-        <!-- Feature 4: Monthly & Annual Analytics Period Selector -->
+        <!-- Monthly & Annual Analytics Period Selector -->
         <select id="period-selector" onchange="handlePeriodChange()" class="bg-slate-100 border border-slate-200 text-ios-text text-xs font-bold rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-ios-blue">
           <option value="ALL">Semua Riwayat</option>
           <option value="2026-10" selected>Oktober 2026</option>
@@ -173,8 +172,8 @@
 
         <div class="grid grid-cols-3 gap-2.5 mt-5 pt-4 border-t border-white/20 text-xs">
           <div class="bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
-            <span class="text-blue-100 text-[10px] block">Saldo Awal</span>
-            <span id="summary-initial" class="font-bold text-white text-xs">Rp 9,509,000</span>
+            <span class="text-blue-100 text-[10px] block">Saldo Awal Bulan</span>
+            <span id="summary-initial" class="font-bold text-white text-xs">Rp 0</span>
           </div>
           <div class="bg-white/10 backdrop-blur-md p-2.5 rounded-2xl border border-white/10">
             <span class="text-blue-100 text-[10px] block">Total Masuk</span>
@@ -187,7 +186,7 @@
         </div>
       </div>
 
-      <!-- ACCOUNTS & E-WALLETS GRID (Feature 1: OVO & ShopeePay added) -->
+      <!-- ACCOUNTS & E-WALLETS GRID -->
       <div>
         <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3 flex items-center gap-2">
           <i class="fa-solid fa-building-columns text-ios-blue"></i> Rekening & Dompet Digital
@@ -238,12 +237,12 @@
             <span class="text-[10px] font-bold text-ios-text">Transfer</span>
           </button>
 
-          <!-- Feature 8: Automatic Cash Expense (Jajan Cash) -->
+          <!-- Automatic Cash Expense (Cash Exp) -->
           <button onclick="openModal('CASH_EXPENSE')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
             <div class="w-9 h-9 rounded-xl bg-emerald-50 text-ios-green flex items-center justify-center mb-1">
               <i class="fa-solid fa-money-bill-wave text-sm"></i>
             </div>
-            <span class="text-[10px] font-bold text-ios-text">Jajan Cash</span>
+            <span class="text-[10px] font-bold text-ios-text">Cash Exp</span>
           </button>
 
           <button onclick="openModal('DIGITAL_EXPENSE')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
@@ -253,7 +252,7 @@
             <span class="text-[10px] font-bold text-ios-text">Digital Exp</span>
           </button>
 
-          <!-- Feature 7: Income Menu with Date, Nominal, Destination Saldo (ATM vs Cash), Note -->
+          <!-- Income Menu -->
           <button onclick="openModal('INCOME')" class="flex flex-col items-center justify-center ios-card-solid rounded-2xl p-3 hover:bg-slate-50 transition active:scale-95 border border-slate-200">
             <div class="w-9 h-9 rounded-xl bg-blue-50 text-ios-blue flex items-center justify-center mb-1">
               <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
@@ -285,7 +284,7 @@
         </div>
       </div>
 
-      <!-- BUDGET POS ALLOCATIONS (Feature 2 & 3 Fixed) -->
+      <!-- BUDGET POS ALLOCATIONS -->
       <div>
         <h3 class="text-xs font-bold text-ios-muted tracking-wider uppercase mb-3 flex items-center gap-2">
           <i class="fa-solid fa-chart-pie text-ios-blue"></i> Alokasi Budget Pos (Budget Master)
@@ -303,7 +302,7 @@
       <div id="transaction-log-list" class="space-y-2.5"></div>
     </section>
 
-    <!-- ==================== TAB 3: CHARTS & ANALYTICS (Feature 3 & 4) ==================== -->
+    <!-- ==================== TAB 3: CHARTS & ANALYTICS ==================== -->
     <section id="tab-grafik" class="space-y-6 hidden">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Cashflow Bar Chart -->
@@ -312,7 +311,7 @@
           <div class="relative h-60 w-full flex justify-center items-center"><canvas id="chart-income-expense"></canvas></div>
         </div>
 
-        <!-- Feature 3: Budget Pos Allocation Pie Chart -->
+        <!-- Budget Pos Allocation Pie Chart -->
         <div class="ios-card-solid rounded-3xl p-5 border border-slate-200 space-y-4">
           <h4 class="text-xs font-bold text-ios-text uppercase tracking-wider text-center">Diagram Alokasi Budget Pos (Pie Chart)</h4>
           <div class="relative h-60 w-full flex justify-center items-center"><canvas id="chart-budget-pie"></canvas></div>
@@ -320,7 +319,7 @@
       </div>
     </section>
 
-    <!-- ==================== TAB 4: ASSETS & MILESTONES (Feature 5) ==================== -->
+    <!-- ==================== TAB 4: ASSETS & MILESTONES ==================== -->
     <section id="tab-aset" class="space-y-6 hidden">
       <!-- NET WORTH SUMMARY -->
       <div class="ios-card-gradient rounded-3xl p-6">
@@ -547,7 +546,6 @@
     }
 
     async function fetchLiveData() {
-      const period = document.getElementById('period-selector').value;
       const activeUserStr = localStorage.getItem('activeUser');
       let userId = '';
       if(activeUserStr) {
@@ -555,7 +553,7 @@
       }
 
       try {
-        const res = await fetch(`${SCRIPT_URL}?action=getTransactions&period=${period}&userId=${userId}`, { cache: 'no-cache' });
+        const res = await fetch(`${SCRIPT_URL}?action=getTransactions&userId=${userId}`, { cache: 'no-cache' });
         if (res.ok) {
           const data = await res.json();
           if (data) {
@@ -572,7 +570,7 @@
     }
 
     function handlePeriodChange() {
-      fetchLiveData();
+      recalculateAndRender();
     }
 
     function formatRp(val) { return 'Rp ' + Math.round(val).toLocaleString('id-ID'); }
@@ -590,19 +588,85 @@
       }
     }
 
+    // ACCURATE MONTH-TO-MONTH ROLLOVER BALANCE CALCULATION
     function computeFinancials() {
-      let bca = initialBalances.bca;
-      let permata = initialBalances.permata;
-      let ovo = initialBalances.ovo;
-      let shopeepay = initialBalances.shopeepay;
-      let emoney = initialBalances.emoney;
-      let cash = initialBalances.cash;
+      const selectedPeriod = document.getElementById('period-selector').value;
+      
+      let startDate = null;
+      let endDate = null;
+      if (selectedPeriod !== "ALL" && !selectedPeriod.startsWith("YEAR_")) {
+        startDate = selectedPeriod + "-01";
+        const parts = selectedPeriod.split("-").map(Number);
+        const y = parts[0];
+        const m = parts[1];
+        endDate = m === 12 ? `${y + 1}-01-01` : `${y}-${String(m + 1).padStart(2, '0')}-01`;
+      } else if (selectedPeriod.startsWith("YEAR_")) {
+        const yr = selectedPeriod.replace("YEAR_", "");
+        startDate = `${yr}-01-01`;
+        endDate = `${Number(yr) + 1}-01-01`;
+      }
 
+      // 1. Calculate Rollover Opening Balance before selected period
+      let bca = initialBalances.bca || 0;
+      let permata = initialBalances.permata || 0;
+      let ovo = initialBalances.ovo || 0;
+      let shopeepay = initialBalances.shopeepay || 0;
+      let emoney = initialBalances.emoney || 0;
+      let cash = initialBalances.cash || 0;
+
+      const filteredTransactions = [];
+      const sortedTxs = [...transactions].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      sortedTxs.forEach(tx => {
+        const txDate = tx.date;
+        const amt = Number(tx.amount) || 0;
+
+        if (startDate && txDate < startDate) {
+          if (tx.type === 'Income' || tx.type === 'Pemasukan') {
+            if (tx.source === 'BCA' || tx.target === 'BCA') bca += amt;
+            else if (tx.source === 'Permata' || tx.target === 'Permata') permata += amt;
+            else if (tx.source === 'OVO' || tx.target === 'OVO') ovo += amt;
+            else if (tx.source === 'ShopeePay' || tx.target === 'ShopeePay') shopeepay += amt;
+            else if (tx.source === 'Cash' || tx.target === 'Cash') cash += amt;
+          } else if (tx.type === 'Expense' || tx.type === 'Pengeluaran') {
+            if (tx.source === 'BCA') bca -= amt;
+            else if (tx.source === 'Permata') permata -= amt;
+            else if (tx.source === 'OVO') ovo -= amt;
+            else if (tx.source === 'ShopeePay') shopeepay -= amt;
+            else if (tx.source === 'E-Money') emoney -= amt;
+            else if (tx.source === 'Cash') cash -= amt;
+          } else if (tx.type === 'Transfer') {
+            if (tx.source === 'BCA') bca -= amt;
+            else if (tx.source === 'Permata') permata -= amt;
+            else if (tx.source === 'OVO') ovo -= amt;
+            else if (tx.source === 'ShopeePay') shopeepay -= amt;
+            else if (tx.source === 'E-Money') emoney -= amt;
+            else if (tx.source === 'Cash') cash -= amt;
+
+            if (tx.target === 'Cash') cash += amt;
+            else if (tx.target === 'BCA') bca += amt;
+            else if (tx.target === 'Permata') permata += amt;
+            else if (tx.target === 'OVO') ovo += amt;
+            else if (tx.target === 'ShopeePay') shopeepay += amt;
+            else if (tx.target === 'E-Money') emoney += amt;
+          }
+        } else {
+          let inPeriod = true;
+          if (endDate && txDate >= endDate) inPeriod = false;
+          if (inPeriod) {
+            filteredTransactions.push(tx);
+          }
+        }
+      });
+
+      const openingLiquid = bca + permata + ovo + shopeepay + emoney + cash;
+
+      // 2. Compute current period movement
       let totalIncome = 0;
       let totalExpense = 0;
       let categoryExpenses = {};
 
-      transactions.forEach(tx => {
+      filteredTransactions.forEach(tx => {
         const amt = Number(tx.amount) || 0;
 
         if (tx.type === 'Income' || tx.type === 'Pemasukan') {
@@ -640,16 +704,17 @@
       });
 
       const totalLiquid = bca + permata + ovo + shopeepay + emoney + cash;
-      const totalFixedAssets = assetsList.reduce((acc, curr) => acc + curr.value, 0);
+      const totalFixedAssets = assetsList.reduce((acc, curr) => acc + (Number(curr.value) || 0), 0);
       const totalNetWorth = totalLiquid + totalFixedAssets;
 
-      return { bca, permata, ovo, shopeepay, emoney, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth, totalFixedAssets, categoryExpenses };
+      return { openingLiquid, bca, permata, ovo, shopeepay, emoney, cash, totalIncome, totalExpense, totalLiquid, totalNetWorth, totalFixedAssets, categoryExpenses, filteredTransactions };
     }
 
     function recalculateAndRender() {
       const fin = computeFinancials();
 
       document.getElementById('total-liquid-balance').innerText = formatRp(fin.totalLiquid);
+      document.getElementById('summary-initial').innerText = formatRp(fin.openingLiquid);
       document.getElementById('summary-income').innerText = '+' + formatRp(fin.totalIncome);
       document.getElementById('summary-expense').innerText = '-' + formatRp(fin.totalExpense);
 
@@ -664,7 +729,7 @@
 
       renderMonthlyPlans(fin.totalLiquid);
       renderBudgetLimits(fin.categoryExpenses);
-      renderTransactionsList();
+      renderTransactionsList(fin.filteredTransactions);
       renderAssetsList();
       renderCharts(fin.totalIncome, fin.totalExpense, fin.categoryExpenses);
       renderMilestones(fin.totalNetWorth);
@@ -719,7 +784,6 @@
       recalculateAndRender();
     }
 
-    // Feature 2 & 3: Render Budget Pos Allocation with Pie Chart support
     function renderBudgetLimits(catExpenses) {
       const container = document.getElementById('budget-limits-list');
       container.innerHTML = '';
@@ -755,7 +819,6 @@
       }
     }
 
-    // Feature 5: Render Assets from Spreadsheet Sheet
     function renderAssetsList() {
       const container = document.getElementById('assets-list-container');
       if (!container) return;
@@ -779,16 +842,19 @@
       });
     }
 
-    function renderTransactionsList() {
+    function renderTransactionsList(filteredTxs) {
       const container = document.getElementById('transaction-log-list');
-      document.getElementById('tx-count').innerText = `${transactions.length} Item`;
+      const txs = filteredTxs || transactions;
+      document.getElementById('tx-count').innerText = `${txs.length} Item`;
 
-      if (transactions.length === 0) {
+      if (txs.length === 0) {
         container.innerHTML = `<p class="text-xs text-ios-muted italic text-center py-8">Tidak ada riwayat transaksi pada periode ini.</p>`;
         return;
       }
 
-      container.innerHTML = transactions.map(tx => `
+      const displayTxs = [...txs].reverse();
+
+      container.innerHTML = displayTxs.map(tx => `
         <div class="ios-card-solid rounded-2xl p-3 flex justify-between items-center text-xs">
           <div>
             <h4 class="font-bold text-ios-text">${tx.note || tx.category}</h4>
@@ -801,7 +867,6 @@
       `).join('');
     }
 
-    // Feature 3: Render Bar chart & Budget Pos Allocation Pie/Doughnut Chart
     function renderCharts(totalInc, totalExp, catExpenses) {
       const ctxBar = document.getElementById('chart-income-expense').getContext('2d');
       if (incExpChartInstance) incExpChartInstance.destroy();
@@ -874,6 +939,7 @@
       groupTarget.classList.add('hidden');
       groupCat.classList.remove('hidden');
       groupMethod.classList.remove('hidden');
+      groupSource.classList.remove('hidden');
       optSourceCash.disabled = false;
 
       if (mode === 'WITHDRAWAL') {
@@ -891,17 +957,17 @@
         document.getElementById('form-source').value = 'BCA';
         document.getElementById('form-target').value = 'OVO';
       } else if (mode === 'CASH_EXPENSE') {
-        // Feature 8: Cash Expenses automatically take from Physical Cash without manual selection
-        document.getElementById('modal-title').innerText = '💵 Jajan / Pengeluaran Cash';
+        // Automatic Cash Expense directly deducting from Cash without picking method
+        document.getElementById('modal-title').innerText = '💵 Cash Exp (Jajan Tunai)';
         groupSource.classList.add('hidden');
+        groupMethod.classList.add('hidden');
         document.getElementById('form-source').value = 'Cash';
+        document.getElementById('form-method').value = 'Cash';
       } else if (mode === 'DIGITAL_EXPENSE') {
         document.getElementById('modal-title').innerText = '💳 Pengeluaran Digital / QRIS';
         optSourceCash.disabled = true;
-        groupSource.classList.remove('hidden');
         document.getElementById('form-source').value = 'BCA';
       } else if (mode === 'INCOME') {
-        // Feature 7: Income menu with date, nominal, destination saldo (ATM vs cash), note
         document.getElementById('modal-title').innerText = '💰 Pemasukan Kas / Saldo';
         groupTarget.classList.remove('hidden');
         groupSource.classList.add('hidden');
@@ -915,6 +981,7 @@
       document.getElementById('modal-form').classList.add('hidden');
       document.getElementById('tx-form').reset();
       document.getElementById('group-source').classList.remove('hidden');
+      document.getElementById('group-method').classList.remove('hidden');
     }
 
     async function handleFormSubmit(e) {
@@ -925,12 +992,15 @@
       let source = document.getElementById('form-source').value;
       const target = document.getElementById('form-target').value;
       const note = document.getElementById('form-note').value || 'Transaksi';
+      let method = document.getElementById('form-method').value;
 
       if (mode === 'CASH_EXPENSE') {
         source = 'Cash';
+        method = 'Cash';
       }
       if (mode === 'INCOME') {
-        source = target; // Income goes directly to chosen target destination (ATM or Cash)
+        source = target;
+        method = 'Transfer';
       }
 
       const activeUserStr = localStorage.getItem('activeUser');
@@ -949,17 +1019,17 @@
         admin: admin,
         source: source,
         target: target,
-        method: document.getElementById('form-method').value,
+        method: method,
         note: note,
         userId: userId
       };
 
       if (mode === 'WITHDRAWAL') {
         transactions.push({ date: payload.date, type: 'Transfer', category: 'Fund Transfer', amount: amount, source: source, target: 'Cash', method: 'Withdrawal', note: note });
-        if (admin > 0) transactions.push({ date: payload.date, type: 'Expense', category: 'Administrasi', amount: admin, source: source, target: '-', method: 'Transfer', note: 'Admin Fee - ' + note });
+        if (admin > 0) transactions.push({ date: payload.date, type: 'Expense', category: 'Administrasi', amount: admin, source: source, target: '-', method: 'Transfer', note: 'Biaya Admin - ' + note });
       } else if (mode === 'FUND_TRANSFER') {
         transactions.push({ date: payload.date, type: 'Transfer', category: 'Fund Transfer', amount: amount, source: source, target: target, method: 'Transfer', note: note });
-        if (admin > 0) transactions.push({ date: payload.date, type: 'Expense', category: 'Administrasi', amount: admin, source: source, target: '-', method: 'Transfer', note: 'Admin Fee - ' + note });
+        if (admin > 0) transactions.push({ date: payload.date, type: 'Expense', category: 'Administrasi', amount: admin, source: source, target: '-', method: 'Transfer', note: 'Biaya Admin - ' + note });
       } else {
         transactions.push(payload);
       }
